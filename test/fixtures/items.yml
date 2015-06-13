@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 
+  item_name: MyText
+  lending_price: 9.99
+  created_at: 2015-06-09 18:59:54
+  updated_at: 2015-06-09 18:59:54
+  category: MyString
+
+two:
+  user_id: 
+  item_name: MyText
+  lending_price: 9.99
+  created_at: 2015-06-09 18:59:54
+  updated_at: 2015-06-09 18:59:54
+  category: MyString

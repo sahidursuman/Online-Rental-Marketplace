@@ -1,10 +1,14 @@
+
 <header class="navbar navbar-fixed-top navbar-inverse">
-  <div class="container">        
-    <%= link_to image_tag("logosmall.png"), root_path, id: "logo" %>
+  <div class="container">
+  	  <% if current_page?(root_url) %>      
+        <%= link_to image_tag("logosmall.png"), root_path, id: "logo" %>
+      <% else %>
+      	<%= link_to image_tag("logo-no-text-small.png"), root_path, id: "logo-small" %>
+      <% end %>
       <nav>
         <ul class="nav navbar-nav navbar-right">
-          <li><%= link_to "Home",   root_path %></li>
-          <li><%= link_to "Help",   help_path %></li>
+          <li><%= link_to "Sign Up",   signup_path %></li>
           <li><%= link_to "Log in", '#' %></li>
         </ul>
       </nav>
