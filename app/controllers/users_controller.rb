@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:edit, :update, :delete_account]
+  before_action :logged_in_user, only: [:edit, :update, :delete_account, :dashboard]
   before_action :correct_user, only: [:edit, :update]
   
   def show
@@ -39,6 +39,14 @@ class UsersController < ApplicationController
     User.find(params[:id]).destroy
     flash[:success] = "Your account and all personal data will be safely deleted after a 30 days grace period. You may log in to re-acitvate your account during this period."
     redirect_to root_url
+  end
+
+  def dashboard
+    @user = User.find(session[:user_id])
+  end
+
+  def rack
+    @user = User.find(session[:user_id])
   end
 
   private

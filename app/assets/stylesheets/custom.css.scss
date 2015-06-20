@@ -14,7 +14,7 @@ $gray-medium-light: #eaeaea;
 /* universal */
 
 body {
-  padding-top: 60px;
+  padding-top: 50px;
 }
 
 section {
@@ -74,10 +74,43 @@ p {
   float: left;
   margin-right: 10px;
   padding-top: 9px;
+  text-align: center;
+}
+
+.navbar-center {
+  position: absolute;
+        left: 49.2%;
+        display: block;
+        width: 660px;
+        text-align: center;
+}
+
+.navbar-nav {
+    display:inline-block;
+    float: none;
+    margin: 0;
+}
+
+.navbar-collapse {
+        text-align: center; 
+        display: block;
+        height: auto;
+        padding-bottom: 0;
+        overflow: visible;
 }
 
 
+/* user avatar */
+.avatar {
+  float: left;
+  margin-right: 10px;
+}
 
+.thumbnail {
+  h1 {
+    text-align: center;
+  }
+}
 
 /* footer */
 
@@ -119,7 +152,7 @@ footer {
 
 aside {
   section.user_info {
-    margin-top: 20px;
+    margin-top: 0px;
   }
   section {
     padding: 10px 0;
