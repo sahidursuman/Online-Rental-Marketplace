@@ -78,7 +78,7 @@ p {
 }
 
 .navbar-center {
-  position: absolute;
+  position: relative;
         left: 49.2%;
         display: block;
         width: 660px;
@@ -101,9 +101,14 @@ p {
 
 
 /* user avatar */
-.avatar {
-  float: left;
-  margin-right: 10px;
+.thumbnail {
+
+  .btn {
+    text-align: center;
+    width: 100%;
+    margin-right: 0px;
+    margin-left: 0px;
+  }
 }
 
 .thumbnail {
@@ -111,6 +116,7 @@ p {
     text-align: center;
   }
 }
+
 
 /* footer */
 
