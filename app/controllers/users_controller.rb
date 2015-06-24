@@ -13,9 +13,10 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      @user.send_activation_email
       log_in @user
-      flash[:success] = "Welcome to Armrack."
-      redirect_back_or @user
+      flash[:success] = "Welcome to Armrack. Please check your e-mail to validate your account."
+      redirect_back_or dashboard_url
     else
       render 'new'
     end
