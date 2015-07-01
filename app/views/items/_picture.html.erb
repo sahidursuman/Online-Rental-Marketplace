@@ -1,0 +1,7 @@
+<div class="row">
+<% @pictures.each do |img| %>
+  <div class="col-xs-6 col-md-3">
+    <%= image_tag img.file_name %>
+  </div>
+<% end %>
+</div>

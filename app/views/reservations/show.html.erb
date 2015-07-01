@@ -1,0 +1,29 @@
+<% provide(:title, @user.first_name + "'s Reservations") %>
+<div class="row">
+  <aside class="col-md-2">
+    <section class="user_info">
+    	<ul class="nav nav-pills nav-stacked">
+          
+    	    <li role="presentation"><%= link_to "Listings", rack_path %></li>
+    	    <li role="presentation" class="active"><%= link_to "Reservations", reservations_path %></li>
+          <li class="nav-divider"></li>
+    	</ul>
+    </section>
+  </aside>
+  <div class="col-md-10">
+  	<div class="panel panel-default">
+  		<div class="panel-heading">
+  			<h3 class="panel-title">Reservations</h3>
+  		</div>
+  		<div class="panel-body">
+  	  	<% if @user.items.any? %>
+  	  	  <h3>Listings (<%= @user.items.count %>)</h3>
+  	  	  <ol class="items">
+  	  	    <%= render @items %>
+  	  	  </ol>
+  	  	  <%= will_paginate @items %>
+  	  	<% end %>
+  	  </div>
+  	</div>
+  </div>
+</div>

@@ -19,7 +19,7 @@
               Account <b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
-              <li><%= link_to "Profile", current_user %></li>
+              <li><%= link_to "Dashboard", dashboard_path %></li>
               <li><%= link_to "Settings", edit_user_path(current_user) %></li>
               <li class="divider"></li>
               <li>
@@ -32,13 +32,14 @@
           <li><%= link_to "Sign Up", rack_path %></li>
           <li><%= link_to "Rack It", account_path %></li>
         <% end %>
-
+          <li class=""><%= link_to "Rack It", rackit_path %></li>
         </ul>
       </nav>
   </div>
   </div>
 
-<% if params[:controller] == 'users' && %w(dashboard rack account).include?(params[:action]) %>
+<% if params[:controller] == 'users' && %w(dashboard account).include?(params[:action]) ||
+                              'items' && %w(index).include?(params[:action]) %>
   <%= render 'layouts/secondnavbar' %>
 <% end %>
 

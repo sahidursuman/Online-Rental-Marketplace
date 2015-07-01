@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150624021415) do
+ActiveRecord::Schema.define(version: 20150630234550) do
 
   create_table "item_images", force: :cascade do |t|
     t.integer  "item_id"
@@ -20,18 +20,47 @@ ActiveRecord::Schema.define(version: 20150624021415) do
     t.datetime "updated_at", null: false
   end
 
+  add_index "item_images", ["item_id", "picture"], name: "index_item_images_on_item_id_and_picture"
   add_index "item_images", ["item_id"], name: "index_item_images_on_item_id"
 
   create_table "items", force: :cascade do |t|
     t.integer  "user_id"
     t.text     "item_name"
     t.decimal  "lending_price"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
     t.string   "category"
+    t.string   "lending_status"
+    t.text     "description"
   end
 
+  add_index "items", ["user_id", "created_at"], name: "index_items_on_user_id_and_created_at"
   add_index "items", ["user_id"], name: "index_items_on_user_id"
+
+  create_table "pictures", force: :cascade do |t|
+    t.string   "file_name"
+    t.integer  "item_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "pictures", ["item_id"], name: "index_pictures_on_item_id"
+
+  create_table "reservations", force: :cascade do |t|
+    t.integer  "item_id"
+    t.integer  "lender_id"
+    t.integer  "lent_id"
+    t.datetime "borrow_date"
+    t.datetime "due_date"
+    t.string   "request_status"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "reservations", ["item_id"], name: "index_reservations_on_item_id"
+  add_index "reservations", ["lender_id", "lent_id"], name: "index_reservations_on_lender_id_and_lent_id"
+  add_index "reservations", ["lender_id"], name: "index_reservations_on_lender_id"
+  add_index "reservations", ["lent_id"], name: "index_reservations_on_lent_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "first_name"

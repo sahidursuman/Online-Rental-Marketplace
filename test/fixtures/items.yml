@@ -1,17 +1,25 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
+orange:
+  user_id: 
+  item_name: MyText
+  lending_price: 9
+  created_at: <%= 10.minutes.ago %>
+  updated_at: <%= 1.minutes.ago %>
+  category: MyString1
+
+pear:
   user_id: 
   item_name: MyText
   lending_price: 9.99
-  created_at: 2015-06-09 18:59:54
-  updated_at: 2015-06-09 18:59:54
+  created_at: <%= 3.years.ago %>
+  updated_at: <%= 10.minutes.ago %>
   category: MyString
 
-two:
+most_recent:
   user_id: 
   item_name: MyText
   lending_price: 9.99
-  created_at: 2015-06-09 18:59:54
-  updated_at: 2015-06-09 18:59:54
+  created_at: <%= Time.zone.now %>
+  updated_at: <%= 10.minutes.ago %>
   category: MyString

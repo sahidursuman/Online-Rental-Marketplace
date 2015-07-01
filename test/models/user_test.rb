@@ -71,6 +71,14 @@ class UserTest < ActiveSupport::TestCase
   test "authenticated? should return false for a user with nil digest" do
     assert_not @user.authenticated?(:remember, '')
   end
+
+  test "associated items should be destroyed" do
+    @user.save
+    @user.items.create!(item_name: "Hunting Rifle", lending_price: "12", category: "rifles")
+    assert_difference 'Item.count', -1 do
+      @user.destroy
+    end
+  end
 end
 
 

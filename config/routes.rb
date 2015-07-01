@@ -13,11 +13,27 @@ Rails.application.routes.draw do
   delete 'logout'	=>	'sessions#destroy'
 
   get 'dashboard' => 'users#dashboard'
-  get 'rack'      => 'users#rack'
+  get 'rack'      => 'items#index'
+  get 'reservations' => 'reservations#show'
   get 'account'   => 'users#account'
+  get 'rackit'    => 'items#new'
+  post 'rackit'    => 'items#create'
+  get 'items/:id/photos' => 'items#photos'
+
   
   resources :users
-  resources :items
+  resources :items, only: [:new, :create, :destroy, :edit] do
+    member do
+      get 'pictures'
+      get 'location'
+    end
+  end
+  scope :api do
+  resources :picture, defaults: {format: 'json'}
+end
+  resources :picture
+  resources :reservations
   resources :account_activations, only: [:edit]
   resources :password_resets, only: [:new, :create, :edit, :update]
+  resources :picture_contents, only: [:create]
 end

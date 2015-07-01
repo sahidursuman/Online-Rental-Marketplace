@@ -155,7 +155,7 @@ footer {
   @include box_sizing;
 }
 
-/* sidebar */
+/* sidebar user */
 
 aside {
   section.user_info {
@@ -228,6 +228,51 @@ input {
 
 
 
+
+/* items */
+
+.items {
+  list-style: none;
+  padding: 0;
+  li {
+    padding: 10px 0;
+    border-bottom: 1px solid #e8e8e8;
+  }
+  .user {
+    margin-top: 5em;
+    padding-top: 0;
+  }
+  .content {
+    display: block;
+    margin-left: 0px;
+ 
+  }
+  .timestamp {
+    color: $gray-light;
+    display: block;
+    margin-left: 0px;
+  }
+}
+
+aside {
+  textarea {
+    height: 100px;
+    margin-bottom: 5px;
+  }
+}
+
+span.picture {
+  margin-top: 10px;
+  input {
+    border: 0;
+  }
+}
+
+/* vertical tabs item edit */
+
+.navbar-edit {
+  padding-top: 20px;
+}
 
 
 

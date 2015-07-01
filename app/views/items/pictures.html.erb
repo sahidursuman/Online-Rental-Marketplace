@@ -1,0 +1,93 @@
+<% provide(:title, 'Edit listing') %>
+
+
+<div class="container">
+<div class="row">
+<div class="col-md-2 navbar-edit">
+<ul id="sidebar" class="nav nav-pills nav-stacked">
+          <li role="" class=""> <%= link_to edit_item_path do %>
+          <i class="glyphicon glyphicon-list"> Details</i>
+          <% end %>
+          </li>
+
+
+          <li role="" class="active"> <%= link_to pictures_item_path do %>
+          <i class="glyphicon glyphicon-camera"> Pictures</i>
+          <% end %>
+          </li>
+    <li><a href="#"><span class="glyphicon glyphicon-lock"></span>  Location</a></li>
+    <li><a href="#"><span class="glyphicon glyphicon-envelope"></span>  Security</a></li>
+    <li><a href="#"><span class="glyphicon glyphicon-list"></span>  Schedule</a></li>
+    <li><a href="#"><span class="glyphicon glyphicon-signal"></span>  Statistics</a></li>
+    <li><a href="#"><span class="glyphicon glyphicon-comment"></span>  Chat</a></li>
+    <li><a href="#"><span class="glyphicon glyphicon-earphone"></span>  Contacts</a></li>
+</ul>
+</div>
+          <div class="col-md-6 col-md-offset-1 ">
+            <h1>Upload images</h2>
+
+      <hr class="colorgraph">
+
+        <% if @item.pictures.any? %>
+          <ol class="items">
+            <%= render 'picture.html.erb' %>
+          </ol>
+        <% end %>
+
+
+
+      <div class="form-group">
+        <div class="row ">  
+
+        <%= form_tag '/picture_contents', method: :post, class: "dropzone", id: "picture-dropzone" do %>
+          <%= hidden_field_tag :item_id, @item.id %>
+          <div class="fallback">    
+            <%= file_field_tag "picture", multiple: true%>
+          </div>
+        <% end %>
+
+        </div>
+      </div>
+      </div>
+
+</div>
+</div>
+
+<script>
+$(function() {
+  var pictureDropzone;
+  pictureDropzone = new Dropzone("#picture-dropzone");
+  return pictureDropzone.on("success", function(file, responseText) {
+    var _this = this;
+    appendContent(responseText.file_name.url, responseText.id);
+    setTimeout(function(){
+      $('#myModal').modal('hide');
+      _this.removeAllFiles();
+    },1000);
+  });
+});
+
+var appendContent = function(imageUrl, mediaId) {
+  $("#picture-contents").append('<div class="col-lg-4">' + 
+    '<div class="thumbnail"><img src="' + imageUrl + '"/>' +
+    '<div class="caption">' +
+    '<input id="media_contents_" name="media_contents[]" value="' + mediaId +'" type="checkbox">' + 
+    '</div>' +
+    '</div></div>');
+  $("#delete").removeAttr('disabled');
+  $("#no-media").html("");
+};
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+

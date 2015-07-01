@@ -1,0 +1,88 @@
+<% provide(:title, 'Edit listing') %>
+
+
+<div class="container">
+<div class="row">
+<div class="col-md-2 navbar-edit">
+<ul id="sidebar" class="nav nav-pills nav-stacked">
+    <li role="" class="active"> <%= link_to edit_item_path do %>
+    <i class="glyphicon glyphicon-list"> Details</i>
+    <% end %>
+    </li>
+
+
+    <li role="" class=""> <%= link_to pictures_item_path do %>
+    <i class="glyphicon glyphicon-camera"> Pictures</i>
+    <% end %>
+    </li>
+
+    <li><a href="#"><span class="glyphicon glyphicon-lock"></span>  Location</a></li>
+    <li><a href="#"><span class="glyphicon glyphicon-envelope"></span>  Calendar</a></li>
+    <li><a href="#"><span class="glyphicon glyphicon-list"></span>  Security</a></li>
+    <li><a href="#"><span class="glyphicon glyphicon-signal"></span>  Statistics</a></li>
+    <li><a href="#"><span class="glyphicon glyphicon-comment"></span>  Chat</a></li>
+    <li><a href="#"><span class="glyphicon glyphicon-earphone"></span>  Contacts</a></li>
+</ul>
+</div>
+
+
+    <%= form_for(@item) do |f| %>
+
+    <div class="col-md-6 col-md-offset-1 ">
+    <%= render 'shared/error_messages', object: f.object %>
+    <form role="form">
+      <h1>Create your listing</h2>
+
+      <hr class="colorgraph">
+
+      <div class="row">
+
+        <div class="col-xs-6 col-sm-6 col-md-6">
+          <div class="form-group">
+            <%= f.text_field :item_name, class: 'form-control input-lg', placeholder: 'Arm name' %>
+          </div>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6">
+          <div class="form-group">
+            <%= f.number_field :lending_price, class: 'form-control input-lg', placeholder: 'Lending price ($/day)' %>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <%= f.text_area :description, class: 'form-control input-lg', placeholder: 'Describe your arm' %>
+      </div>
+
+      <div class="row">
+      <div class="col-xs-4 col-sm-4 col-md-4 col-md-offset-4">
+        <div class="form-group">
+          <h2><%= f.label :category, class: 'form-control' %></h2>
+          <%= f.select :category, options_for_select(%w[Rifle Shotgun]), class: 'form-control' %> 
+        </div>
+      </div>
+      </div>
+
+      <hr class="colorgraph">
+      <div class="row">
+        <div class="col-xs-6 col-md-6 col-md-offset-3"><%= f.submit "Begin", class: "btn btn-primary btn-block btn-lg" %></div>
+      </div>
+      <% end %>
+
+    </form>
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
