@@ -11,17 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150630234550) do
-
-  create_table "item_images", force: :cascade do |t|
-    t.integer  "item_id"
-    t.string   "picture"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "item_images", ["item_id", "picture"], name: "index_item_images_on_item_id_and_picture"
-  add_index "item_images", ["item_id"], name: "index_item_images_on_item_id"
+ActiveRecord::Schema.define(version: 20150704043611) do
 
   create_table "items", force: :cascade do |t|
     t.integer  "user_id"
@@ -37,11 +27,40 @@ ActiveRecord::Schema.define(version: 20150630234550) do
   add_index "items", ["user_id", "created_at"], name: "index_items_on_user_id_and_created_at"
   add_index "items", ["user_id"], name: "index_items_on_user_id"
 
-  create_table "pictures", force: :cascade do |t|
-    t.string   "file_name"
+  create_table "locations", force: :cascade do |t|
+    t.string   "street"
+    t.string   "apartment"
+    t.string   "city"
+    t.string   "state"
+    t.string   "country"
+    t.integer  "zip"
     t.integer  "item_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  add_index "locations", ["city"], name: "index_locations_on_city"
+  add_index "locations", ["country"], name: "index_locations_on_country"
+  add_index "locations", ["item_id"], name: "index_locations_on_item_id"
+  add_index "locations", ["state"], name: "index_locations_on_state"
+
+  create_table "photos", force: :cascade do |t|
+    t.string   "title"
+    t.string   "image"
+    t.integer  "item_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "photos", ["item_id"], name: "index_photos_on_item_id"
+
+  create_table "pictures", force: :cascade do |t|
+    t.string   "title"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+    t.integer  "item_id"
   end
 
   add_index "pictures", ["item_id"], name: "index_pictures_on_item_id"

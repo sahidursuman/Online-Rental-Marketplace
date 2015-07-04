@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 class PictureUploader < CarrierWave::Uploader::Base
-  include CarrierWave::MiniMagick
+  include CarrierWave::RMagick
 
 
   # Choose what kind of storage to use for this uploader:

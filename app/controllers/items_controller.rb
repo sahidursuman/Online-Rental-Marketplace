@@ -1,7 +1,7 @@
 class ItemsController < ApplicationController
   before_action :logged_in_user, only: [:new, :create, :destroy]
   before_action :correct_user,   only: :destroy
-  respond_to :json, :html
+  include ItemsHelper
 
   def index
     @user = User.find(session[:user_id])
@@ -17,7 +17,9 @@ class ItemsController < ApplicationController
     @item = current_user.items.build(item_params)
     if @item.save
       flash[:success] = "3 more steps."
+      remember_item @item 
       redirect_to rack_path
+      
     else
       render root_url
     end
@@ -29,10 +31,6 @@ class ItemsController < ApplicationController
     respond_with(@pictures) do |format|
       format.json { render json: @pictures}
     end
-  end
-
-  def location
-    @item = Item.find(params[:id])
   end
 
   def edit

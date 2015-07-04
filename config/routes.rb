@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'photos/new'
+
+  get 'photos/create'
+
   get 'password_resets/new'
 
   get 'password_resets/edit'
@@ -18,20 +22,12 @@ Rails.application.routes.draw do
   get 'account'   => 'users#account'
   get 'rackit'    => 'items#new'
   post 'rackit'    => 'items#create'
-  get 'items/:id/photos' => 'items#photos'
+  get 'items/:id/photos' => 'photos#show', as: :edit_photos
 
   
   resources :users
-  resources :items, only: [:new, :create, :destroy, :edit] do
-    member do
-      get 'pictures'
-      get 'location'
-    end
-  end
-  scope :api do
-  resources :picture, defaults: {format: 'json'}
-end
-  resources :picture
+  resources :items, only: [:new, :create, :destroy, :edit] 
+  resources :photos
   resources :reservations
   resources :account_activations, only: [:edit]
   resources :password_resets, only: [:new, :create, :edit, :update]

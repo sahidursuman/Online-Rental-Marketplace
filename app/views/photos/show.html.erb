@@ -11,7 +11,7 @@
           </li>
 
 
-          <li role="" class="active"> <%= link_to pictures_item_path do %>
+          <li role="" class="active"> <%= link_to edit_photos_url(@item) do %>
           <i class="glyphicon glyphicon-camera"> Pictures</i>
           <% end %>
           </li>
@@ -26,11 +26,23 @@
           <div class="col-md-6 col-md-offset-1 ">
             <h1>Upload images</h2>
 
+      <%= form_for(Photo.new, :remote => true, html: {multipart: :true}) do |f| %>
+
+        <%= f.label :title, 'Title' %>
+        <%= f.text_field :title %>
+
+        <%= f.label :image, 'Choose Image' %>
+        <%= f.file_field :image %>
+        <%= f.hidden_field :item_id, :value => @item.id %>
+        <%= f.submit 'Add' %>
+
+      <% end %>
+
       <hr class="colorgraph">
 
-        <% if @item.pictures.any? %>
+        <% unless @photo.blank? %>
           <ol class="items">
-            <%= render 'picture.html.erb' %>
+            <%= render 'show' %>
           </ol>
         <% end %>
 
@@ -39,12 +51,6 @@
       <div class="form-group">
         <div class="row ">  
 
-        <%= form_tag '/picture_contents', method: :post, class: "dropzone", id: "picture-dropzone" do %>
-          <%= hidden_field_tag :item_id, @item.id %>
-          <div class="fallback">    
-            <%= file_field_tag "picture", multiple: true%>
-          </div>
-        <% end %>
 
         </div>
       </div>
@@ -52,33 +58,6 @@
 
 </div>
 </div>
-
-<script>
-$(function() {
-  var pictureDropzone;
-  pictureDropzone = new Dropzone("#picture-dropzone");
-  return pictureDropzone.on("success", function(file, responseText) {
-    var _this = this;
-    appendContent(responseText.file_name.url, responseText.id);
-    setTimeout(function(){
-      $('#myModal').modal('hide');
-      _this.removeAllFiles();
-    },1000);
-  });
-});
-
-var appendContent = function(imageUrl, mediaId) {
-  $("#picture-contents").append('<div class="col-lg-4">' + 
-    '<div class="thumbnail"><img src="' + imageUrl + '"/>' +
-    '<div class="caption">' +
-    '<input id="media_contents_" name="media_contents[]" value="' + mediaId +'" type="checkbox">' + 
-    '</div>' +
-    '</div></div>');
-  $("#delete").removeAttr('disabled');
-  $("#no-media").html("");
-};
-</script>
-
 
 
 
