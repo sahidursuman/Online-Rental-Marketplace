@@ -30,15 +30,15 @@
 
         <% unless @photo.blank? %>
           <ol class="items">
-            <%= render 'show' %>
+            <%= render 'showpics' %>
           </ol>
         <% end %>
 
 
       <div class="col-xs-4 col-sm-4 col-md-4 col-md-offset-4">
-      <%= form_for(Photo.new, :remote => true, html: {multipart: :true}) do |f| %>
+      <%= form_for(Photo.new, remote: true, html: {multipart: :true}) do |f| %>
 
-        <%= f.label :title, 'Title' %>
+        <%= f.label :title, 'Title (Optional)' %>
         <%= f.text_field :title %>
 
         <%= f.label :image, 'Choose Image' %>
@@ -49,18 +49,7 @@
       <% end %>
       </div>
 
-      <hr class="colorgraph">
 
-
-
-
-
-      <div class="form-group">
-        <div class="row ">  
-
-
-        </div>
-      </div>
       </div>
 
 </div>

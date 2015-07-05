@@ -5,18 +5,6 @@ class PhotosController < ApplicationController
   	@photo = Photo.new
 	end
 
-	def upload_photos
-	end
-
-	def upload
-		@photo = Photo.new(image: params[:file])
-    parsed = Photo.parse_filename(params[:name])
-    @photo.title = parsed[:title]
-    if @photo.save
-      head 200
-    end
-	end
-
 	def show
 		@item = Item.find(params[:id])
 		@photo = @item.photos
@@ -30,6 +18,20 @@ class PhotosController < ApplicationController
     else
       render edit_photos_url(@item)
     end
+	end
+
+	def destroy 
+		@photo_destroy = Photo.find_by_id(params[:id])
+		@item = Item.find(@photo_destroy.item_id)
+		if @photo_destroy.present?
+			@photo_destroy.destroy
+		end
+		flash[:success] = "Photo deleted"
+		@photo = @item.photos
+		respond_to do |format|
+			format.html { redirect_to edit_photos_url(@item)}
+			format.js 
+		end
 	end
 
 private

@@ -23,14 +23,12 @@ Rails.application.routes.draw do
   get 'rackit'    => 'items#new'
   post 'rackit'    => 'items#create'
   get 'items/:id/photos' => 'photos#show', as: :edit_photos
+  delete 'items/:id/photos' => 'photos#destroy', as: :delete_photo
 
   
   resources :users
   resources :items, only: [:new, :create, :destroy, :edit] 
-  resources :photos do
-    get 'upload_photos' => 'photos#upload_photos', as: :upload_photos
-    post '/upload'      => 'photos#upload', as: :upload
-  end
+  resources :photos 
   resources :reservations
   resources :account_activations, only: [:edit]
   resources :password_resets, only: [:new, :create, :edit, :update]
