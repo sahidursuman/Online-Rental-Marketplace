@@ -17,18 +17,20 @@ class ItemsController < ApplicationController
     @item = current_user.items.build(item_params)
     if @item.save
       flash[:success] = "3 more steps."
-      redirect_to rack_path
+      redirect_to edit_item_path(@item)
       
     else
       render root_url
     end
 	end
 
-  def pictures
+  def update
     @item = Item.find(params[:id])
-    @pictures = @item.pictures
-    respond_with(@pictures) do |format|
-      format.json { render json: @pictures}
+    if @item.update_attributes(item_params)
+      flash[:success] = "Item updated"
+      redirect_to edit_item_path(@item)
+    else
+      render edit_item_path(@item)
     end
   end
 

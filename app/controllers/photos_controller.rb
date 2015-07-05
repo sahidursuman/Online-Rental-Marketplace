@@ -13,8 +13,11 @@ class PhotosController < ApplicationController
 	def create
 		@item = Item.find params[:photo][:item_id]
   	@photo = @item.photos.build(photo_params)
-		if @item.save
-      redirect_to edit_photos_url(@item) 
+		if @photo.save
+      respond_to do |format|
+				format.html { redirect_to edit_photos_url(@item)}
+				format.js 
+			end	
     else
       render edit_photos_url(@item)
     end
@@ -26,7 +29,6 @@ class PhotosController < ApplicationController
 		if @photo_destroy.present?
 			@photo_destroy.destroy
 		end
-		flash[:success] = "Photo deleted"
 		@photo = @item.photos
 		respond_to do |format|
 			format.html { redirect_to edit_photos_url(@item)}

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150704043611) do
+ActiveRecord::Schema.define(version: 20150705164409) do
 
   create_table "items", force: :cascade do |t|
     t.integer  "user_id"
@@ -33,16 +33,15 @@ ActiveRecord::Schema.define(version: 20150704043611) do
     t.string   "city"
     t.string   "state"
     t.string   "country"
-    t.integer  "zip"
+    t.string   "zip"
+    t.float    "latitude"
+    t.float    "longitude"
     t.integer  "item_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  add_index "locations", ["city"], name: "index_locations_on_city"
-  add_index "locations", ["country"], name: "index_locations_on_country"
   add_index "locations", ["item_id"], name: "index_locations_on_item_id"
-  add_index "locations", ["state"], name: "index_locations_on_state"
 
   create_table "photos", force: :cascade do |t|
     t.string   "title"
