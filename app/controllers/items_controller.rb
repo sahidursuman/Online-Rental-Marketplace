@@ -17,7 +17,6 @@ class ItemsController < ApplicationController
     @item = current_user.items.build(item_params)
     if @item.save
       flash[:success] = "3 more steps."
-      remember_item @item 
       redirect_to rack_path
       
     else

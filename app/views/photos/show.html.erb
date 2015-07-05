@@ -26,6 +26,16 @@
           <div class="col-md-6 col-md-offset-1 ">
             <h1>Upload images</h2>
 
+            <hr class="colorgraph">
+
+        <% unless @photo.blank? %>
+          <ol class="items">
+            <%= render 'show' %>
+          </ol>
+        <% end %>
+
+
+      <div class="col-xs-4 col-sm-4 col-md-4 col-md-offset-4">
       <%= form_for(Photo.new, :remote => true, html: {multipart: :true}) do |f| %>
 
         <%= f.label :title, 'Title' %>
@@ -37,14 +47,11 @@
         <%= f.submit 'Add' %>
 
       <% end %>
+      </div>
 
       <hr class="colorgraph">
 
-        <% unless @photo.blank? %>
-          <ol class="items">
-            <%= render 'show' %>
-          </ol>
-        <% end %>
+
 
 
 

@@ -27,7 +27,10 @@ Rails.application.routes.draw do
   
   resources :users
   resources :items, only: [:new, :create, :destroy, :edit] 
-  resources :photos
+  resources :photos do
+    get 'upload_photos' => 'photos#upload_photos', as: :upload_photos
+    post '/upload'      => 'photos#upload', as: :upload
+  end
   resources :reservations
   resources :account_activations, only: [:edit]
   resources :password_resets, only: [:new, :create, :edit, :update]
