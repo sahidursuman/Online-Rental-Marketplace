@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  item_id: 
+  available_from: 2015-07-11 15:42:22
+  available_to: 2015-07-11 15:42:22
+
+two:
+  item_id: 
+  available_from: 2015-07-11 15:42:22
+  available_to: 2015-07-11 15:42:22

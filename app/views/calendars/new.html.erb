@@ -1,0 +1,86 @@
+<% provide(:title, 'Edit listing') %>
+
+
+<div class="container">
+<div class="row">
+<div class="col-md-2 navbar-edit">
+<ul id="sidebar" class="nav nav-pills nav-stacked">
+    <li role="" class=""> <%= link_to edit_item_path do %>
+    <i class="glyphicon glyphicon-list"> Details</i>
+    <% end %>
+    </li>
+
+
+    <li role="" class=""> <%= link_to edit_photos_url(@item) do %>
+    <i class="glyphicon glyphicon-camera"> Pictures</i>
+    <% end %>
+    </li>
+
+    <li role="" class=""> <%= link_to item_location_url(@item) do %>
+    <i class="glyphicon glyphicon-lock"> Location</i>
+    <% end %>
+    </li>
+
+    <li role="" class="active"> <%= link_to item_calendar_url(@item) do %>
+    <i class="glyphicon glyphicon-lock"> Calendar</i>
+    <% end %>
+    </li>
+
+
+</ul>
+</div>
+
+
+    <div class="col-md-6 col-md-offset-1 ">
+
+      <h1>Calendar</h1>
+      <h1><small>What dates is your arm available?</small></h1>
+
+      <hr class="colorgraph">
+
+      <div class="row">
+
+        <%= form_for(@calendar) do |f| %>
+            <div class="col-md-6">
+            <%= f.text_field :available_from, class: "available_from", placeholder: "Available from..." %>
+            </div>
+            <div class="col-md-6">
+            <%= f.text_field :available_to, class: "available_to", placeholder: "Available to..." %>
+            </div>
+
+            <hr class="colorgraph">
+
+            <div class="col-md-6 col-md-offset-3">
+            <%= f.hidden_field :item_id, :value => @item.id %>
+
+            <%= f.submit "Next Step", class: "btn btn-primary btn-block btn-lg" %>
+            </div>
+        <% end %>
+              
+
+
+       
+      </div>
+
+  </div>
+</div>
+</div>
+
+
+<script>
+
+  $(document).on('ready page:load', function () {
+
+    $('.available_from').datepicker({format: 'ddmm-yyyy'});
+    $('.available_to').datepicker({format: 'dd-mm-yyyy'});
+      var datepicker = $.fn.datepicker.noConflict(); // return $.fn.datepicker to previously assigned value
+    $.fn.bootstrapDP = datepicker;                 // give $().bootstrapDP the bootstrap-datepicker functionality
+    $.fn.datepicker.defaults.format = "mm/dd/yyyy";
+  });
+
+</script>
+
+
+
+
+

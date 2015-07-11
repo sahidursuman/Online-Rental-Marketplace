@@ -1,0 +1,66 @@
+<div id="locations-form" >
+
+<%= form_for(Location.new) do |f| %>
+
+    <div class="col-md-6 col-md-offset-1 ">
+    <%= render 'shared/error_messages', object: f.object %>
+    <form role="form">
+      <% unless @location.blank? %>
+      <h1> Edit location </h1>
+      <% else %>
+      <h1>Arm location</h1>
+      <% end %>
+
+      <hr class="colorgraph">
+
+      <div class="row">
+
+        <div class="col-xs-6 col-sm-6 col-md-6">
+          <div class="form-group">
+            <%= f.text_field :street, class: 'form-control input-lg', placeholder: 'Street Address' %>
+          </div>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6">
+          <div class="form-group">
+            <%= f.text_field :apartment, class: 'form-control input-lg', placeholder: 'Apartment (optional)' %>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-4 col-sm-4 col-md-4">
+          <div class="form-group">
+            <%= f.text_field :city, class: 'form-control input-lg', placeholder: 'City' %>
+          </div>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4">
+          <div class="form-group">
+            <%= f.text_field :state, class: 'form-control input-lg', placeholder: 'State' %>
+          </div>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4">
+          <div class="form-group">
+            <%= f.text_field :zip, class: 'form-control input-lg', placeholder: 'ZIP Code' %>
+          </div>
+        </div>
+
+      <div class="row">
+      <div class="col-xs-4 col-sm-4 col-md-4 col-md-offset-4">
+        <div class="form-group">
+          <h2><%= f.label :country, class: 'form-control' %></h2>
+          <%= f.select :country, options_for_select(%w[ USA]), class: 'form-control' %>
+          <%= f.hidden_field :item_id, :value => @item.id %>
+ 
+        </div>
+      </div>
+      </div>
+
+      <hr class="colorgraph">
+      <div class="row">
+        <div class="col-xs-6 col-md-6 col-md-offset-3"><%= f.submit "Next step", class: "btn btn-primary btn-block btn-lg" %></div>
+      </div>
+      <% end %>
+
+      </form>
+      </div>
+
+</div>

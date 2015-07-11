@@ -26,26 +26,47 @@ class ItemsController < ApplicationController
 
   def update
     @item = Item.find(params[:id])
-    if @item.update_attributes(item_params)
+    url = Rails.application.routes.recognize_path(request.referrer)
+    last_controller = url[:controller]
+    last_action = url[:action]
+
+    if %w(edit).include?(last_action)
+      @item.update_attributes(item_params)
       flash[:success] = "Item updated"
       redirect_to edit_item_path(@item)
+    elsif %w(calendar).include?(last_action)
+      @item.update_columns(available_from: params[:item][:available_from],
+                          available_to: params[:item][:available_to])
     else
       render edit_item_path(@item)
     end
+  end
+
+
+  def update_calendar
+    @item = Item.find(params[:id])
+    
+    if %w(calendar).include?(last_action)
+    @item.update_columns(available_from: params[:item][:available_from],
+                          available_to: params[:item][:available_to])
+    end
+    redirect_to root_url
   end
 
   def edit
     @item = Item.find(params[:id])
   end
 
-  def update
-    @item = Item.find(params[:id])  
+  def calendar
+    @item = Item.find(params[:id])
   end
+
+ 
 
 private
 
   def item_params
-    params.require(:item).permit(:item_name, :lending_price, :description, :category)
+    params.require(:item).permit(:item_name, :lending_price, :description, :category, :available_from, :available_to)
   end
 
   def correct_user

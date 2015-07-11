@@ -21,11 +21,12 @@
     <% end %>
     </li>
 
-    <li><a href="#"><span class="glyphicon glyphicon-envelope"></span>  Calendar</a></li>
-    <li><a href="#"><span class="glyphicon glyphicon-list"></span>  Security</a></li>
-    <li><a href="#"><span class="glyphicon glyphicon-signal"></span>  Statistics</a></li>
-    <li><a href="#"><span class="glyphicon glyphicon-comment"></span>  Chat</a></li>
-    <li><a href="#"><span class="glyphicon glyphicon-earphone"></span>  Contacts</a></li>
+    <li role="" class=""> <%= link_to item_calendar_url(@item) do %>
+    <i class="glyphicon glyphicon-lock"> Calendar</i>
+    <% end %>
+    </li>
+    
+ 
 </ul>
 </div>
 
@@ -61,6 +62,8 @@
         <div class="form-group">
           <h2><%= f.label :category, class: 'form-control' %></h2>
           <%= f.select :category, options_for_select(%w[Rifle Shotgun]), class: 'form-control' %> 
+          <%= f.hidden_field :item_id, :value => @item.id %>
+
         </div>
       </div>
       </div>

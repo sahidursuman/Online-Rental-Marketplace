@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150705164409) do
+ActiveRecord::Schema.define(version: 20150711194248) do
+
+  create_table "calendars", force: :cascade do |t|
+    t.integer  "item_id"
+    t.datetime "available_from"
+    t.datetime "available_to"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "calendars", ["item_id"], name: "index_calendars_on_item_id"
 
   create_table "items", force: :cascade do |t|
     t.integer  "user_id"
@@ -22,6 +32,7 @@ ActiveRecord::Schema.define(version: 20150705164409) do
     t.string   "category"
     t.string   "lending_status"
     t.text     "description"
+    t.string   "listing_status"
   end
 
   add_index "items", ["user_id", "created_at"], name: "index_items_on_user_id_and_created_at"

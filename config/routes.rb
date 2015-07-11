@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  get 'calendars/new'
+
+  get 'calendars/create'
+
+  get 'calendars/update'
+
   get 'locations/new'
 
   get 'locations/create'
@@ -31,17 +37,25 @@ Rails.application.routes.draw do
   get 'rackit'    => 'items#new'
   post 'rackit'    => 'items#create'
 
-  get 'items/:id/edit' => 'items#edit'
-  post 'items/:id/edit' => 'items#update'
+
 
   get 'items/:id/photos' => 'photos#show', as: :edit_photos
   delete 'items/:id/photos' => 'photos#destroy', as: :delete_photo
 
   get 'item/:id/location' => 'locations#new', as: :item_location
-  
+
+  get 'items/:id/edit' => 'items#edit'
+  patch 'items/:id/edit' => 'items#update'
+
+  get 'items/:id/calendar' => 'calendars#new', as: :item_calendar
+  post 'items/:id/calendar' => 'calendars#create'
+
+
+
+  resources :items, only: [:new, :create, :destroy, :edit, :update, :update_calendar]
   resources :users
-  resources :items, only: [:new, :create, :destroy, :edit, :update] 
   resources :locations
+  resources :calendars
   resources :photos 
   resources :reservations
   resources :account_activations, only: [:edit]

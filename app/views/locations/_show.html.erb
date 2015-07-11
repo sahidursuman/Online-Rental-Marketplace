@@ -1,0 +1,22 @@
+<div class="col-md-6 col-md-offset-1 ">
+    <h1>Arm location</h1>
+
+      <hr class="colorgraph">
+
+      <div class="row center">
+        <ul class="list-group">
+          <li class="list-group-item">Street: <%= @location.street %></li>
+          <% if @location.apartment %>
+          <li class="list-group-item">Apartment <%= @location.apartment %></li>
+          <% end %>
+          <li class="list-group-item">City: <%= @location.city %></li>
+          <li class="list-group-item">State: <%= @location.state %></li>
+          <li class="list-group-item">ZIP: <%= @location.zip %></li>
+          <li class="list-group-item">Country: <%= @location.country %></li>
+        </ul>        
+
+              <hr class="colorgraph">
+
+      </div>
+
+</div>

@@ -15,12 +15,18 @@
           <i class="glyphicon glyphicon-camera"> Pictures</i>
           <% end %>
           </li>
-    <li><a href="#"><span class="glyphicon glyphicon-lock"></span>  Location</a></li>
-    <li><a href="#"><span class="glyphicon glyphicon-envelope"></span>  Security</a></li>
-    <li><a href="#"><span class="glyphicon glyphicon-list"></span>  Schedule</a></li>
-    <li><a href="#"><span class="glyphicon glyphicon-signal"></span>  Statistics</a></li>
-    <li><a href="#"><span class="glyphicon glyphicon-comment"></span>  Chat</a></li>
-    <li><a href="#"><span class="glyphicon glyphicon-earphone"></span>  Contacts</a></li>
+
+          <li role="" class=""> <%= link_to item_location_url(@item) do %>
+          <i class="glyphicon glyphicon-lock"> Location</i>
+          <% end %>
+          </li>
+          
+    <li role="" class=""> <%= link_to item_calendar_url(@item) do %>
+    <i class="glyphicon glyphicon-lock"> Calendar</i>
+    <% end %>
+    </li>
+
+    
 </ul>
 </div>
           <div class="col-md-6 col-md-offset-1 ">
