@@ -1,21 +1,18 @@
 class CalendarsController < ApplicationController
   def new
   	@item = Item.find(params[:id])
-  	@calendar = Calendar.new
 
-  	if Calendar.exists?(:id)
-      @location = Location.find(params[:id])
-      @item = Item.find(@location.item_id)
-      
+
+  	if @item.calendar.blank?    
+      @calendar = Calendar.new
     else
-      @item = Item.find(params[:id])
-  	  @location = Location.new
+  	  @calendar = @item.calendar
     end
   end
 
   def create
   	@item = Item.find params[:calendar][:item_id]
-  	@calendar = Calendar.new(calendar_params)
+  	@calendar = @item.build_calendar(calendar_params)
 		if @calendar.save
       respond_to do |format|
 				format.html { redirect_to item_calendar_url(@item)}

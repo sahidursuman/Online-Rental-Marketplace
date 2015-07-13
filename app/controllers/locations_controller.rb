@@ -1,20 +1,21 @@
 class LocationsController < ApplicationController
   def new
     @item = Item.find(params[:id])
-    if Location.where(item_id: @item.id).blank?
-      @location = Location.where(item_id: @item.id)
-    else
-  	  @location = Location.new
-    end
 
+    if @item.location.blank?
+      @location = Location.new
+    else
+      redirect_to edit_location_path(@item)
+    end
+    
   end
 
   def create
   	@item = Item.find params[:location][:item_id]
-  	@location = Location.new(location_params)
+  	@location = @item.build_location(location_params)
 		if @location.save
       respond_to do |format|
-				format.html { redirect_to item_location_url(@item)}
+				format.html { redirect_to edit_location_path(@item)}
 				format.js 
 			end	
     else
@@ -23,14 +24,17 @@ class LocationsController < ApplicationController
   end
 
   def edit
+    @item = Item.find(params[:id])
+    @location = @item.location
   end
 
   def update
     @location = Location.find(params[:id])
+    @item = @location.item
     if @location.update_attributes(location_params)
-      redirect_to item_location_url
+      redirect_to edit_location_path(@item)
     else
-      render item_location_url(@item)
+      render edit_location_path(@item)
     end
   end
 
@@ -38,7 +42,7 @@ private
 
   def location_params
     params.require(:location).permit(:street, :apartment, 
-                        :city, :state, :country, :zip)
+                        :city, :state, :country, :zip, :item_id)
   end
 
 end

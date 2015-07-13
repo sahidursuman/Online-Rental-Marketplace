@@ -71,7 +71,7 @@
 
   $(document).on('ready page:load', function () {
 
-    $('.available_from').datepicker({format: 'ddmm-yyyy'});
+    $('.available_from').datepicker({format: 'dd-mm-yyyy'});
     $('.available_to').datepicker({format: 'dd-mm-yyyy'});
       var datepicker = $.fn.datepicker.noConflict(); // return $.fn.datepicker to previously assigned value
     $.fn.bootstrapDP = datepicker;                 // give $().bootstrapDP the bootstrap-datepicker functionality

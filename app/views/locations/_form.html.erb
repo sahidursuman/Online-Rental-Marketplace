@@ -1,14 +1,18 @@
 <div id="locations-form" >
 
-<%= form_for(Location.new) do |f| %>
-
+<%= form_for(@location) do |f| %>
+    <% if @item.location.blank? %>
     <div class="col-md-6 col-md-offset-1 ">
+    <% else %>
+    <div class="col-md-6 col-md-offset-3 ">
+    <% end %>
     <%= render 'shared/error_messages', object: f.object %>
     <form role="form">
-      <% unless @location.blank? %>
-      <h1> Edit location </h1>
-      <% else %>
+
+      <% if @item.location.blank? %>
       <h1>Arm location</h1>
+      <% else %>
+      <h1>Edit location</h1>
       <% end %>
 
       <hr class="colorgraph">

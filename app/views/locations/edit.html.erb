@@ -1,2 +1,54 @@
-<h1>Locations#edit</h1>
-<p>Find me in app/views/locations/edit.html.erb</p>
+<% provide(:title, 'Edit listing') %>
+
+
+<div class="container">
+<div class="row">
+<div class="col-md-2 navbar-edit">
+<ul id="sidebar" class="nav nav-pills nav-stacked">
+    <li role="" class=""> <%= link_to edit_item_path do %>
+    <i class="glyphicon glyphicon-list"> Details</i>
+    <% end %>
+    </li>
+
+
+    <li role="" class=""> <%= link_to edit_photos_url(@item) do %>
+    <i class="glyphicon glyphicon-camera"> Pictures</i>
+    <% end %>
+    </li>
+
+    <li role="" class="active"> <%= link_to item_location_url(@item) do %>
+    <i class="glyphicon glyphicon-lock"> Location</i>
+    <% end %>
+    </li>
+
+    <li role="" class=""> <%= link_to item_calendar_url(@item) do %>
+    <i class="glyphicon glyphicon-lock"> Calendar</i>
+    <% end %>
+    </li>
+    
+</ul>
+</div>
+    
+    
+      <%= render 'show' %>
+      <%= render 'form' %>
+  
+
+    </form>
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
