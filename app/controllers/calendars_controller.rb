@@ -24,6 +24,9 @@ class CalendarsController < ApplicationController
   end
 
   def update
+    @item = Item.find params[:calendar][:item_id]
+    @item.calendar.update_attributes(calendar_params)
+    redirect_to item_calendar_url(@item)
   end
 
 private

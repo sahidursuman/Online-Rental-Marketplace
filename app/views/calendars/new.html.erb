@@ -5,24 +5,37 @@
 <div class="row">
 <div class="col-md-2 navbar-edit">
 <ul id="sidebar" class="nav nav-pills nav-stacked">
+
     <li role="" class=""> <%= link_to edit_item_path do %>
     <i class="glyphicon glyphicon-list"> Details</i>
+      <% unless @item.blank? %>
+      <i class="glyphicon glyphicon-ok pull-right"></i>
+      <% end %>  
     <% end %>
     </li>
 
 
     <li role="" class=""> <%= link_to edit_photos_url(@item) do %>
     <i class="glyphicon glyphicon-camera"> Pictures</i>
+      <% unless @item.photos.blank? %>
+      <i class="glyphicon glyphicon-ok pull-right"></i>
+      <% end %>  
     <% end %>
     </li>
 
     <li role="" class=""> <%= link_to item_location_url(@item) do %>
-    <i class="glyphicon glyphicon-lock"> Location</i>
+    <i class="glyphicon glyphicon-home"> Location</i>
+      <% unless @item.location.blank? %>
+      <i class="glyphicon glyphicon-ok pull-right"></i>
+      <% end %>    
     <% end %>
     </li>
 
     <li role="" class="active"> <%= link_to item_calendar_url(@item) do %>
-    <i class="glyphicon glyphicon-lock"> Calendar</i>
+      <i class="glyphicon glyphicon-calendar"> Calendar</i>
+      <% unless @item.calendar.blank? %>
+      <i class="glyphicon glyphicon-ok pull-right"></i>
+      <% end %>
     <% end %>
     </li>
 
@@ -52,6 +65,7 @@
 
             <div class="col-md-6 col-md-offset-3">
             <%= f.hidden_field :item_id, :value => @item.id %>
+            <hr class="colorgraph">
 
             <%= f.submit "Next Step", class: "btn btn-primary btn-block btn-lg" %>
             </div>
@@ -73,7 +87,7 @@
 
     $('.available_from').datepicker({format: 'dd-mm-yyyy'});
     $('.available_to').datepicker({format: 'dd-mm-yyyy'});
-      var datepicker = $.fn.datepicker.noConflict(); // return $.fn.datepicker to previously assigned value
+    var datepicker = $.fn.datepicker.noConflict(); // return $.fn.datepicker to previously assigned value
     $.fn.bootstrapDP = datepicker;                 // give $().bootstrapDP the bootstrap-datepicker functionality
     $.fn.datepicker.defaults.format = "mm/dd/yyyy";
   });
