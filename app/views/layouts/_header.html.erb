@@ -73,6 +73,8 @@
 
 <% if params[:controller] == 'users' && %w(dashboard account).include?(params[:action]) ||
                               'items' && %w(index).include?(params[:action]) %>
+  <% if params[:commit] != "Search" %>
   <%= render 'layouts/secondnavbar' %>
+  <% end %>
 <% end %>
 
