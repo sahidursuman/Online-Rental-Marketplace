@@ -5,7 +5,15 @@ class ItemsController < ApplicationController
 
   def index
     @user = User.find(session[:user_id])
+    if params[:item_name] || params[:city]
+      item_query = Item.where(:item_name => params[:item_name])
+      query = item_query.joins(:location).where('locations.city' => params[:city])
+                                    
+      @items = query.all.paginate(page: session[:page])
+
+    else
   	@items = current_user.items.paginate(page: session[:page])
+    end
   end
 
   def new
