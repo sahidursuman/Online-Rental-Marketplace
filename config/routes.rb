@@ -51,7 +51,7 @@ Rails.application.routes.draw do
 
 
 
-  resources :items, only: [:index, :new, :create, :destroy, :edit, :update, :update_calendar]
+  resources :items, only: [:index, :new, :create, :destroy, :edit, :update, :update_calendar, :show]
   resources :users
   resources :locations, only: [:new, :create, :edit, :update]
   resources :calendars

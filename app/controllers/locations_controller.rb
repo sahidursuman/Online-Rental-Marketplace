@@ -15,7 +15,7 @@ class LocationsController < ApplicationController
   	@location = @item.build_location(location_params)
 		if @location.save
       respond_to do |format|
-				format.html { redirect_to edit_location_path(@item)}
+				format.html { redirect_to item_calendar_url(@item)}
 				format.js 
 			end	
     else
@@ -32,7 +32,7 @@ class LocationsController < ApplicationController
     @location = Location.find(params[:id])
     @item = @location.item
     if @location.update_attributes(location_params)
-      redirect_to edit_location_path(@item)
+      redirect_to item_calendar_url(@item)
     else
       render edit_location_path(@item)
     end

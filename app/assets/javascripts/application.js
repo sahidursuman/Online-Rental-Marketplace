@@ -13,7 +13,9 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap-datepicker
+//= require datetimepicker
 //= require jquery.turbolinks
+//= require owl.carousel
 //= require turbolinks
 //= require_self
 //= require_tree .

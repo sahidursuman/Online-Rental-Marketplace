@@ -3,54 +3,54 @@
 
 <div class="container">
 <div class="row">
-<div class="col-md-2 navbar-edit">
-<ul id="sidebar" class="nav nav-pills nav-stacked">
-    <li role="" class=""> <%= link_to edit_item_path do %>
-    <i class="glyphicon glyphicon-list"> Details</i>
-      <% unless @item.blank? %>
-      <i class="glyphicon glyphicon-ok pull-right"></i>
-      <% end %>  
-    <% end %>
-    </li>
-
-
-    <li role="" class="active"> <%= link_to edit_photos_url(@item) do %>
-    <i class="glyphicon glyphicon-camera"> Pictures</i>
-      <% unless @item.photos.blank? %>
-      <i class="glyphicon glyphicon-ok pull-right"></i>
-      <% end %>  
-    <% end %>
-    </li>
-
-    <li role="" class=""> <%= link_to item_location_url(@item) do %>
-    <i class="glyphicon glyphicon-home"> Location</i>
-      <% unless @item.location.blank? %>
-      <i class="glyphicon glyphicon-ok pull-right"></i>
-      <% end %>    
-    <% end %>
-    </li>
-
-    <li role="" class=""> <%= link_to item_calendar_url(@item) do %>
-      <i class="glyphicon glyphicon-calendar"> Calendar</i>
-      <% unless @item.calendar.blank? %>
-      <i class="glyphicon glyphicon-ok pull-right"></i>
+  <div class="col-md-2 navbar-edit">
+  <ul id="sidebar" class="nav nav-pills nav-stacked">
+      <li role="" class=""> <%= link_to edit_item_path do %>
+      <i class="glyphicon glyphicon-list"> Details</i>
+        <% unless @item.blank? %>
+        <i class="glyphicon glyphicon-ok pull-right"></i>
+        <% end %>  
       <% end %>
-    <% end %>
-    </li>
+      </li>
 
-    
-</ul>
-</div>
-          <div class="col-md-6 col-md-offset-1 ">
-            <h1>Upload images</h2>
 
-            <hr class="colorgraph">
+      <li role="" class="active"> <%= link_to edit_photos_url(@item) do %>
+      <i class="glyphicon glyphicon-camera"> Pictures</i>
+        <% unless @item.photos.blank? %>
+        <i class="glyphicon glyphicon-ok pull-right"></i>
+        <% end %>  
+      <% end %>
+      </li>
 
-        <% unless @photo.blank? %>
-          <ol class="items">
-            <li><%= render 'showpics' %></li>
-          </ol>
+      <li role="" class=""> <%= link_to item_location_url(@item) do %>
+      <i class="glyphicon glyphicon-home"> Location</i>
+        <% unless @item.location.blank? %>
+        <i class="glyphicon glyphicon-ok pull-right"></i>
+        <% end %>    
+      <% end %>
+      </li>
+
+      <li role="" class=""> <%= link_to item_calendar_url(@item) do %>
+        <i class="glyphicon glyphicon-calendar"> Calendar</i>
+        <% unless @item.calendar.blank? %>
+        <i class="glyphicon glyphicon-ok pull-right"></i>
         <% end %>
+      <% end %>
+      </li>
+
+      
+  </ul>
+  </div>
+    <div class="col-md-6 col-md-offset-1 ">
+      <h1>Upload images</h1>
+
+      <hr class="colorgraph">
+
+      <% unless @photo.blank? %>
+        <ol class="items">
+          <li><%= render 'showpics' %></li>
+        </ol>
+      <% end %>
 
 
       <div class="col-xs-4 col-sm-4 col-md-4 col-md-offset-4">
@@ -65,13 +65,28 @@
         <%= f.submit 'Add' %>
 
       <% end %>
-      </div>
-
 
       </div>
 
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <hr>
+      <div class="col-md-6 col-md-offset-3">
+
+      <%= link_to "Next", item_location_url(@item), class:"btn btn-primary btn-block btn-lg" %>
+
+      </div>
+    </div>
 </div>
 </div>
+
+
 
 
 

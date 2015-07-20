@@ -1,27 +1,4 @@
-<% if params[:commit] == "Search" %>
 
-<div class="row" id="photo-row">
-<% item.photos.first do |photo| %>
-
-  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail" >
-      <%= image_tag photo.image_url(:thumb) if photo.image? %>
-      <div class="caption">
-        <%= photo.title %>
-        <%= link_to 'Remove', delete_photo_path(photo), method: :delete, remote: true, class: "btn btn-primary" %>
-      </div>
-    </div>
-  </div>
-  
- <% end %>
-</div>
-
-
-
-
-
-
-<% else %>
 <li id="item-<%= item.id %>">
   <span class="content"><%= link_to (item.item_name) %></span>
   <span class="timestamp">
@@ -35,4 +12,3 @@
 
   </span>
 </li>
-<% end %>

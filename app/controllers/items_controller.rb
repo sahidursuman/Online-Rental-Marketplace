@@ -20,6 +20,10 @@ class ItemsController < ApplicationController
     end
   end
 
+  def show
+    @item = Item.find(params[:id])
+  end
+
   def new
    # @item = current_user.items.build if logged_in?
    @item = Item.new
@@ -44,11 +48,11 @@ class ItemsController < ApplicationController
 
     if %w(edit).include?(last_action)
       @item.update_attributes(item_params)
-      flash[:success] = "Item updated"
-      redirect_to edit_item_path(@item)
+      redirect_to edit_photos_url(@item)
     elsif %w(calendar).include?(last_action)
       @item.update_columns(available_from: params[:item][:available_from],
                           available_to: params[:item][:available_to])
+
     else
       render edit_item_path(@item)
     end

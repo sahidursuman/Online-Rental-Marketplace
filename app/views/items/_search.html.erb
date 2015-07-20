@@ -1,13 +1,35 @@
-<li id="item-<%= item.id %>">
-  <span class="content"><%= link_to (item.item_name) %></span>
-  <span class="timestamp">
-    Price: $<%= item.lending_price %> | 
-    <% if item.lending_status == "not available" %>
-    Due back on: <%= reservation.due_date %> | Status: <span class="label label-danger">Available</span>
-    <% else %>
-    Status: <span class="label label-success">Available</span>
-    <% end %>
-    | <%= link_to ("Edit listing"), edit_item_url(item) %>
+<div class="jumbotron">
 
-  </span>
-</li>
+<div class="row" id="photo-row">
+<% @items.each do |item| %>
+  <%= link_to item_path(item) do %>
+
+<% item.photos.first(1).each do |photo| %>
+  
+    
+    <div class="col-sm-6 col-md-4">
+
+      <div class="thumbnail" >
+        
+        <%= image_tag photo.image_url(:thumb) if photo.image? %>
+        <div class="center">
+        <p><span class="badge">$<%= item.lending_price %> per day</span></p>
+        </div>
+        <hr>     
+        <div class=" center">
+          <p><%= item.item_name %></p>
+          <p><%= item.location.city %> <%= item.location.state %> </p>
+        </div>
+
+
+
+      </div>
+    </div>
+  <% end %>
+  
+ <% end %>
+
+
+<% end %>
+</div>
+</div>

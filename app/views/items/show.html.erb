@@ -1,0 +1,93 @@
+
+<div class="row">
+  <aside class="col-md-8">
+    <section class="user_info">
+      <br>
+      <div class="owl-carousel owl-theme" id="owl-example">
+        <% @item.photos.each do |photo| %>
+          <div class="item"> <%= image_tag photo.image_url(:index) if photo.image? %> </div>
+        <% end %>
+      </div>
+      </section>
+  </aside>
+  <hr>
+  <h1><bold>$<%= @item.lending_price %> / day</bold></h1>
+  <hr>
+  <div class="col-md-2">
+
+  <%= form_tag rack_path, method: :get do %>
+
+  <br>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        From: <input id="datetimepicker1" type="text" >
+      </div>
+    </div>
+  </div> 
+  <div class="col-md-2">
+  <br>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        To: <input id="datetimepicker2" type="text" >
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+
+
+
+    <%= submit_tag "Request Reservation", class: "btn btn-primary btn-block btn-lg form-control" %>
+  </div>
+  <% end %>
+  
+</div>
+
+
+
+
+<script type="text/javascript">
+  $(document).ready( function () {
+    $("#owl-example").owlCarousel({
+ 
+      navigation : true, // Show next and prev buttons
+      slideSpeed : 300,
+      paginationSpeed : 400,
+      singleItem: true
+ 
+      // "singleItem:true" is a shortcut for:
+      // items : 1, 
+      // itemsDesktop : false,
+      // itemsDesktopSmall : false,
+      // itemsTablet: false,
+      // itemsMobile : false
+ 
+     });
+    $('#datetimepicker1').datetimepicker({
+      minDate:'0',
+      formatTime: 'g:i A',
+      ampm: true
+
+    });
+
+
+    $('#datetimepicker2').datetimepicker({
+      minDate:'0',
+      formatTime: 'g:i A',
+      ampm: true
+    });
+
+
+  });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+

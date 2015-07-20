@@ -1,6 +1,9 @@
 source 'https://rubygems.org'
 
-
+source 'https://rails-assets.org' do
+  gem 'rails-assets-datetimepicker'
+end
+gem 'owlcarousel-rails'
 gem 'rails',        '4.2.0'
 gem 'bcrypt',		'3.1.7'
 gem 'faker',    '1.4.2'
