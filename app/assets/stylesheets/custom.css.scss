@@ -301,10 +301,19 @@ p {
     height: 600px;
 }
 
+  hr{
+    padding: 0px;
+    margin: 0px;    
+  }
 
+.well {
+  padding: 1px;
+  margin: 1px;
+}
 
-
-
+.jumbotron {
+  background-color: transparent;
+}
 
 
 

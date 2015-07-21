@@ -1,6 +1,6 @@
 <div class="jumbotron">
 
-<div class="row" id="photo-row">
+<div class="row">
 <% @items.each do |item| %>
   <%= link_to item_path(item) do %>
 
@@ -13,12 +13,12 @@
         
         <%= image_tag photo.image_url(:thumb) if photo.image? %>
         <div class="center">
-        <p><span class="badge">$<%= item.lending_price %> per day</span></p>
+        <span class="badge">$<%= item.lending_price %> per day</span>
         </div>
         <hr>     
         <div class=" center">
-          <p><%= item.item_name %></p>
-          <p><%= item.location.city %> <%= item.location.state %> </p>
+          <h2><%= item.item_name %></h2>
+          <h2><%= item.location.city %> <%= item.location.state %> </h2>
         </div>
 
 
