@@ -53,6 +53,8 @@
 
       <div class="row">
 
+
+
         <%= form_for(@calendar) do |f| %>
             <div class="col-md-6">
             <%= f.text_field :available_from, class: "available_from", placeholder: "Available from..." %>
@@ -67,7 +69,7 @@
             <%= f.hidden_field :item_id, :value => @item.id %>
             <hr class="colorgraph">
 
-            <%= f.submit "Next Step", class: "btn btn-primary btn-block btn-lg" %>
+            <%= f.submit "Finish Listing", class: "btn btn-primary btn-block btn-lg" %>
             </div>
         <% end %>
               

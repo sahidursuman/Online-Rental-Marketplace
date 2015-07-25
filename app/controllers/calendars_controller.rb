@@ -11,8 +11,10 @@ class CalendarsController < ApplicationController
   end
 
   def create
-  	@item = Item.find params[:calendar][:item_id]
+  	@item = Item.find params[:item_id][:value]
   	@calendar = @item.build_calendar(calendar_params)
+
+
 		if @calendar.save
       respond_to do |format|
 				format.html { redirect_to item_calendar_url(@item)}
@@ -32,6 +34,6 @@ class CalendarsController < ApplicationController
 private
 
   def calendar_params
-    params.require(:calendar).permit(:available_from, :available_to)
+    params.require(:calendar).permit(:available_from, :available_to, :item_id, :availability)
   end
 end

@@ -47,7 +47,9 @@ Rails.application.routes.draw do
   patch 'items/:id/edit' => 'items#update'
 
   get 'items/:id/calendar' => 'calendars#new', as: :item_calendar
-  post 'items/:id/calendar' => 'calendars#create'
+  post 'items/:id/calendar' => 'calendars#create', as: :submit_calendar
+
+  get 'rack/my-reservations' => 'items#my_reservations', as: :my_reservations
 
 
 

@@ -1,3 +1,4 @@
+<% if params[:controller] == 'items' && %w(my_reservations).include?(params[:action]) %>
 
 <li id="item-<%= item.id %>">
   <span class="content"><%= link_to (item.item_name) %></span>
@@ -12,3 +13,32 @@
 
   </span>
 </li>
+
+<% else %>
+
+
+
+<li id="item-<%= item.id %>">
+  <span class="content h3"><%= link_to (item.item_name) %>
+    <% if item.listing_status == nil %>
+      <%= link_to "Finish Listing", edit_item_path(item), class: "btn btn-default  pull-right" %>
+    <% end %>
+  </span>
+  <span class="timestamp">
+    Price: $<%= item.lending_price %> | 
+    
+
+    <% if item.listing_status == "not available" %>
+    Due back on: <%= reservation.due_date %> | Status: <span class="label label-danger">Available</span>
+    <% else %>
+      <% if item.listing_status == nil %>
+      Status: <span class="label label-warning">Unlisted</span> <div class=""></div>
+
+      <% else %>
+      Status: <span class="label label-success">Available</span>
+      <% end %>
+    <% end %>
+
+  </span>
+</li>
+<% end %>

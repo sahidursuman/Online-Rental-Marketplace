@@ -11,14 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150720024849) do
+ActiveRecord::Schema.define(version: 20150723230407) do
 
   create_table "calendars", force: :cascade do |t|
     t.integer  "item_id"
     t.datetime "available_from"
     t.datetime "available_to"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.string   "reservation_type"
+    t.string   "availability"
   end
 
   add_index "calendars", ["item_id"], name: "index_calendars_on_item_id"
@@ -113,8 +115,8 @@ ActiveRecord::Schema.define(version: 20150720024849) do
     t.string   "requested"
   end
 
+  add_index "reservations", ["item_id", "lender_id", "lent_id"], name: "index_reservations_on_item_id_and_lender_id_and_lent_id", unique: true
   add_index "reservations", ["item_id"], name: "index_reservations_on_item_id"
-  add_index "reservations", ["lender_id", "lent_id"], name: "index_reservations_on_lender_id_and_lent_id"
   add_index "reservations", ["lender_id"], name: "index_reservations_on_lender_id"
   add_index "reservations", ["lent_id"], name: "index_reservations_on_lent_id"
 
@@ -133,6 +135,7 @@ ActiveRecord::Schema.define(version: 20150720024849) do
     t.datetime "activated_at"
     t.string   "reset_digest"
     t.datetime "reset_sent_at"
+    t.string   "customer_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

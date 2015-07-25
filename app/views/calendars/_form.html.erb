@@ -1,0 +1,11 @@
+        <%= form_for(@calendar) do |f| %>
+            <div class="col-md-6">
+            <%= f.text_field :available_from, class: "available_from", placeholder: "Available from..." %>
+            </div>
+            <div class="col-md-6">
+            <%= f.text_field :available_to, class: "available_to", placeholder: "Available to..." %>
+            </div>
+
+            <hr class="colorgraph">
+
+        <% end %>

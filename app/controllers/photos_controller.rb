@@ -12,12 +12,12 @@ class PhotosController < ApplicationController
 
 	def create
 		@item = Item.find params[:photo][:item_id]
-  	@photo = @item.photos.build(photo_params)
+  		@photo = @item.photos.build(photo_params)
 		if @photo.save
-      respond_to do |format|
+      	respond_to do |format|
 				format.html { redirect_to edit_photos_url(@item)}
 				format.js 
-			end	
+		end	
     else
       render edit_photos_url(@item)
     end

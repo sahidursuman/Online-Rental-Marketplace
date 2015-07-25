@@ -20,7 +20,7 @@
     <div class="panel panel-default">
       <div class="panel-body">
         Borrow date:
-        <%= text_field_tag 'datetimepicker1' %>
+        <%= text_field_tag 'borrow_date' %>
       </div>
     </div>
   </div> 
@@ -29,13 +29,14 @@
     <div class="panel panel-default">
       <div class="panel-body">
         Due date: 
-        <%= text_field_tag 'datetimepicker2' %>
+        <%= text_field_tag 'due_date' %>
       </div>
     </div>
   </div>
   <div class="col-md-4">
 
-
+    <%= hidden_field_tag "lending_id", @lending_user.id %>
+    <%= hidden_field_tag "lender_id", @lender_user.id %>
     <%= hidden_field_tag "item_id", @item.id %>
     <%= submit_tag "Request Reservation", class: "btn btn-primary btn-block btn-lg form-control" %>
   </div>
@@ -63,7 +64,7 @@
       // itemsMobile : false
  
      });
-    $('#datetimepicker1').datetimepicker({
+    $('#borrow_date').datetimepicker({
       minDate:'0',
       formatTime: 'g:i A',
       ampm: true
@@ -71,7 +72,7 @@
     });
 
 
-    $('#datetimepicker2').datetimepicker({
+    $('#due_date').datetimepicker({
       minDate:'0',
       formatTime: 'g:i A',
       ampm: true

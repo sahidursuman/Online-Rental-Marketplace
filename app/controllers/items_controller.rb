@@ -1,6 +1,7 @@
 class ItemsController < ApplicationController
   before_action :logged_in_user, only: [:index, :new, :create, :destroy, :update]
-  before_action :correct_user,   only: :destroy
+  before_action :correct_user,   only: [:destroy, :edit, :update]
+  before_action :correct_reservations, only: :my_reservations
   include ItemsHelper
 
   def index
@@ -20,13 +21,25 @@ class ItemsController < ApplicationController
     end
   end
 
+  def my_reservations
+    @user = User.find(session[:user_id])
+    @reservations = Reservation.where(lent_id: @user.id)
+
+    @items = @reservations.map(&:item).uniq
+    @items = @items.paginate(page: session[:page])
+    
+  end
+
   def show
     @item = Item.find(params[:id])
+    @lending_user = User.find(session[:user_id])
+    @lender_user = User.find_by_id(@item.user_id)
   end
 
   def new
    # @item = current_user.items.build if logged_in?
    @item = Item.new
+
   end
   
   def create
@@ -59,23 +72,10 @@ class ItemsController < ApplicationController
   end
 
 
-  def update_calendar
-    @item = Item.find(params[:id])
-    
-    if %w(calendar).include?(last_action)
-    @item.update_columns(available_from: params[:item][:available_from],
-                          available_to: params[:item][:available_to])
-    end
-    redirect_to root_url
-  end
-
   def edit
     @item = Item.find(params[:id])
   end
 
-  def calendar
-    @item = Item.find(params[:id])
-  end
 
  
 
@@ -89,5 +89,12 @@ private
     @item = current_user.items.find_by(id: params[:id])
     redirect_to rack_url if @item.nil?
   end
+
+  def correct_reservations
+    @reservations = Reservation.where(lent_id: current_user.id)
+    redirect_to rack_url if @reservations.nil?
+  end
+
+
 
 end

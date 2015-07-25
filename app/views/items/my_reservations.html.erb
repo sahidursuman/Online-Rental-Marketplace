@@ -9,11 +9,11 @@
   <aside class="col-md-2">
     <section class="user_info">
     	<ul class="nav nav-pills nav-stacked">
-    	    <li role="presentation" class="active"> <%= link_to rack_path do %> 
+    	    <li role="presentation" class=""> <%= link_to rack_path do %> 
           <i class="glyphicon glyphicon-list"> Listings</i>
           <% end %>
           </li>
-    	    <li role="presentation"><%= link_to my_reservations_path(@item) do %> 
+    	    <li role="presentation" class="active"><%= link_to my_reservations_path do %> 
           <i class="glyphicon glyphicon-shopping-cart"> Reservations</i>
           <% end %>
     	</ul>
@@ -22,10 +22,10 @@
   <div class="col-md-10">
   	<div class="panel panel-default">
   		<div class="panel-heading">
-  			<h3 class="panel-title">Listings (<%= @user.items.count %>)</h3>
+  			<h3 class="panel-title">Reservations (<%= @reservations.count %>)</h3>
   		</div>
   		<div class="panel-body">
-  	  	<% if @user.items.any? %>
+  	  	<% if @reservations.any? %>
   	  	  <ol class="items">
   	  	    <%= render @items %>
   	  	  </ol>

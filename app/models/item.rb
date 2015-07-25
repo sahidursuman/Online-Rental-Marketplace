@@ -1,7 +1,7 @@
 class Item < ActiveRecord::Base
   belongs_to :user
   attr_accessor :available_from, :available_to
-  has_many :reservations, dependent: :destroy
+  has_many :reservations
   has_many :photos, dependent: :destroy
   has_one :location, dependent: :destroy
   has_one :calendar, dependent: :destroy

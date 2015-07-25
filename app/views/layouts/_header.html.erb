@@ -60,9 +60,10 @@
 
             </ul>
           </li>
+          <li><%= link_to "Log Out", logout_path, method: "delete" %></li>
         <% else %>
           <li><%= link_to "Log In", login_path %></li>
-          <li><%= link_to "Sign Up", rack_path %></li>
+          <li><%= link_to "Sign Up", signup_path %></li>
           <li><%= link_to "Rack It", account_path %></li>
         <% end %>
           <li class=""><%= link_to "Rack It", rackit_path %></li>
@@ -72,7 +73,7 @@
   </div>
 
 <% if params[:controller] == 'users' && %w(dashboard account).include?(params[:action]) ||
-                              'items' && %w(index).include?(params[:action]) %>
+                              'items' && %w(index my_reservations).include?(params[:action]) %>
   <% if params[:commit] != "Search" %>
   <%= render 'layouts/secondnavbar' %>
   <% end %>

@@ -1,0 +1,14 @@
+
+<li id="item-<%= item.id %>">
+  <span class="content"><%= link_to (item.item_name) %></span>
+  <span class="timestamp">
+    Price: $<%= item.lending_price %> | 
+    <% if item.lending_status == "not available" %>
+    Due back on: <%= reservation.due_date %> | Status: <span class="label label-danger">Available</span>
+    <% else %>
+    Status: <span class="label label-success">Available</span>
+    <% end %>
+    | <%= link_to ("Edit listing"), edit_item_url(item) %>
+
+  </span>
+</li>

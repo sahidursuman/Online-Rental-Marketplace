@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap-datepicker
+//= require bootstrap-switch
 //= require datetimepicker
 //= require jquery.turbolinks
 //= require owl.carousel

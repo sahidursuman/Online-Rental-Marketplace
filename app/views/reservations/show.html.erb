@@ -5,40 +5,86 @@
 
     <% @item.photos.first(1).each do |photo| %>
       <div class="col-sm-6 col-md-4">
-      <div class="panel panel-default">
-      <div class="panel-body">
-        <div class="thumbnail" >
-          <%= image_tag photo.image_url(:index) if photo.image? %>
-        <% end %>
-        </div>
-        <h1><small><%= @item.item_name %></small></h1>
-        <h1><small><%= @item.location.city + ", " + @item.location.state %></small></h1>
-        <hr>
-        <br>
-        <div class="clearfix">
-        <h2 class="pull-left well-sm well">Lending price:</h2><h2 class="pull-right well-sm well"> $<%= @item.lending_price %> / day</h2>
-        </div>
-        <div class="clearfix">
-        <h2 class="pull-left well-sm well">Dates:</h2><h2 class="pull-right well-sm well"> <%= @borrow_date + " - " + @due_date %></h2>
-        </div>
-                <div class="clearfix">
-        <h2 class="pull-left well-sm well">Times:</h2><h2 class="pull-right well-sm well"> <%= @borrow_time + " - " + @due_time %></h2>
-        </div>
-        <div class="clearfix">
-        <h2 class="pull-left well-sm well">Subtotal:</h2><h2 class="pull-right well-sm well"> $<%= @subtotal %></h2>
-        </div>
-        <div class="clearfix">
-        <h2 class="pull-left well-sm well">Fee:</h2><h2 class="pull-right well-sm well"> $<%= @fee %></h2>
-        </div>
-        <br>
-        <hr>
-        <br>
-        <h2 class="pull-left well"><bold>Lending price:</bold></h2><h2 class="pull-right well"><bold> $<%= @total %></bold></h2>
+        <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="thumbnail" >
+            <%= image_tag photo.image_url(:index) if photo.image? %>
+          <% end %>
+          </div>
+          <h1><small><%= @item.item_name %></small></h1>
+          <h1><small><%= @item.location.city + ", " + @item.location.state %></small></h1>
+          <hr>
+          <br>
+          <div class="clearfix">
+          <h2 class="pull-left well-sm well">Lending price:</h2><h2 class="pull-right well-sm well"> $<%= @item.lending_price %> / day</h2>
+          </div>
+          <div class="clearfix">
+          <h2 class="pull-left well-sm well">Dates:</h2><h2 class="pull-right well-sm well"> <%= @borrow_date + " - " + @due_date %></h2>
+          </div>
+                  <div class="clearfix">
+          <h2 class="pull-left well-sm well">Times:</h2><h2 class="pull-right well-sm well"> <%= @borrow_time + " - " + @due_time %></h2>
+          </div>
+          <div class="clearfix">
+          <h2 class="pull-left well-sm well">Subtotal:</h2><h2 class="pull-right well-sm well"> $<%= @subtotal %></h2>
+          </div>
+          <div class="clearfix">
+          <h2 class="pull-left well-sm well">Fee:</h2><h2 class="pull-right well-sm well"> $<%= @fee %></h2>
+          </div>
+          <br>
+          <hr>
+          <br>
+          <h2 class="pull-left well"><bold>Lending price:</bold></h2><h2 class="pull-right well"><bold> $<%= @total %></bold></h2>
 
+        </div>
+        </div>  
       </div>
-      </div>  
+      <div class="col-md-8">
+        <div class="jumbotron">
+          <div class="center">
+          Lending: <%= @lending_user.first_name %>
+          Lender: <%= @lender_user.first_name %>
+            <form action="" method="POST">
+              <script
+                src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                data-key="pk_test_ieflQAMrJzl0wykzAgpUYnDb"
+                data-amount=<%= @total * 100 %>
+                data-name="Armrack"
+                data-description=<%= @item.item_name %>
+                data-image=""
+                data-email=<%= @lending_user.email%>
+                data-label="Reserve"
+                >
+              </script>
+
+            </form>
+          </div>
+        </div>
       </div>
     
 
   </section>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

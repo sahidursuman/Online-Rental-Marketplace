@@ -1,5 +1,8 @@
 source 'https://rubygems.org'
 
+
+gem "bootstrap-switch-rails"
+gem 'stripe'
 source 'https://rails-assets.org' do
   gem 'rails-assets-datetimepicker'
 end
