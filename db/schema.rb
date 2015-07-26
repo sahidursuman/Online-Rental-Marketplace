@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150726152747) do
+ActiveRecord::Schema.define(version: 20150726203013) do
 
   create_table "calendars", force: :cascade do |t|
     t.integer  "item_id"
@@ -114,7 +114,7 @@ ActiveRecord::Schema.define(version: 20150726152747) do
     t.string   "requested"
   end
 
-  add_index "reservations", ["item_id", "lender_id", "lent_id"], name: "index_reservations_on_item_id_and_lender_id_and_lent_id", unique: true
+  add_index "reservations", ["item_id", "lender_id", "lent_id"], name: "index_reservations_on_item_id_and_lender_id_and_lent_id"
   add_index "reservations", ["item_id"], name: "index_reservations_on_item_id"
   add_index "reservations", ["lender_id"], name: "index_reservations_on_lender_id"
   add_index "reservations", ["lent_id"], name: "index_reservations_on_lent_id"
