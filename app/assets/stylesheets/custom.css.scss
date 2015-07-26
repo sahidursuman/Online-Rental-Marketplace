@@ -244,14 +244,16 @@ input {
   }
   .content {
     display: block;
-    margin-left: 10px;
+    margin-left: 0px;
     margin-top: 0px;
+ 
   }
   .timestamp {
     color: $gray-light;
     display: block;
     margin-left: 0px;
   }
+
 }
 
 aside {

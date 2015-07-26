@@ -2,6 +2,7 @@ class ItemsController < ApplicationController
   before_action :logged_in_user, only: [:index, :new, :create, :destroy, :update]
   before_action :correct_user,   only: [:destroy, :edit, :update]
   before_action :correct_reservations, only: :my_reservations
+
   include ItemsHelper
 
   def index
@@ -38,6 +39,7 @@ class ItemsController < ApplicationController
 
   def new
    # @item = current_user.items.build if logged_in?
+   @user = User.find(session[:user_id])
    @item = Item.new
 
   end
@@ -47,7 +49,7 @@ class ItemsController < ApplicationController
     if @item.save
       flash[:success] = "3 more steps."
       redirect_to edit_item_path(@item)
-      
+      @item.update_attribute(:listing_status, "Unlisted")
     else
       render root_url
     end

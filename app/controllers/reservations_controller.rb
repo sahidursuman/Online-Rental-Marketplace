@@ -29,17 +29,29 @@ require 'date'
 
 		token = params[:stripeToken]
 
-		customer = Stripe::Customer.create(
+		if customer = Stripe::Customer.create(
 		  :source => token,
 		  :description => "#{@lending_user.first_name} #{@lending_user.last_name}"
 		)
 
+		# Charge the card
+		Stripe.api_key = ENV['STRIPE_SECRET_KEY']
+		Stripe::Charge.create({
+		  :amount => 1000,
+		  :currency => "usd",
+		  :source => token,
+		  :destination => @lender_user.uid
+		  #:application_fee => 
+		})
+
 		# Save customer ID in database
-		current_user.update_column(:customer_id, customer.id)
+		@lending_user.update_attribute(:customer_id, customer.id)
 
 		flash[:success] = "'#{@item.item_name}' was requested. Your card will be charged when the request is approved."
 		redirect_to my_reservations_path
-
+		else
+			render 'show'
+		end
 	end
 
   private

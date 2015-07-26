@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  devise :omniauthable
   has_many :items, dependent: :destroy
   attr_accessor :remember_token, :activation_token, :reset_token
 	before_save :downcase_email

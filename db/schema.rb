@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150723230407) do
+ActiveRecord::Schema.define(version: 20150726152747) do
 
   create_table "calendars", force: :cascade do |t|
     t.integer  "item_id"
@@ -83,7 +83,6 @@ ActiveRecord::Schema.define(version: 20150723230407) do
   add_index "pg_search_documents", ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable_type_and_searchable_id"
 
   create_table "photos", force: :cascade do |t|
-    t.string   "title"
     t.string   "image"
     t.integer  "item_id"
     t.datetime "created_at", null: false
@@ -136,6 +135,10 @@ ActiveRecord::Schema.define(version: 20150723230407) do
     t.string   "reset_digest"
     t.datetime "reset_sent_at"
     t.string   "customer_id"
+    t.string   "publishable_key"
+    t.string   "uid"
+    t.string   "access_code"
+    t.string   "provider"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

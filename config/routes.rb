@@ -51,7 +51,7 @@ Rails.application.routes.draw do
 
   get 'rack/my-reservations' => 'items#my_reservations', as: :my_reservations
 
-
+  devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
 
   resources :items, only: [:index, :new, :create, :destroy, :edit, :update, :update_calendar, :show]
   resources :users

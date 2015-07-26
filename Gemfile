@@ -1,6 +1,10 @@
 source 'https://rubygems.org'
 
-
+gem 'pusher'
+gem 'figaro'
+gem 'sinatra'
+gem 'devise'
+gem 'omniauth-stripe-connect', '2.6.0'
 gem "bootstrap-switch-rails"
 gem 'stripe'
 source 'https://rails-assets.org' do
