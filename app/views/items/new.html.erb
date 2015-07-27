@@ -1,7 +1,7 @@
 <% provide(:title, 'Rack it') %>
 
 <div class="container">
-
+<%= session["devise.stripe_connect_data"] %>
 <div class="row">
     <%= form_for(@item) do |f| %>
 
