@@ -1,0 +1,35 @@
+
+<% @reqs.each do |item, res| %>
+  <li id="item-<%= item.id %>">
+    <span class="content h3"><%= link_to (item.item_name), item_path(item) %>
+    <% if res.request_status == "Approved" %>
+      <div class="col-md-3 pull-right">
+      <button type="button" class="btn btn-primary btn-block btn-lg glyphicon">Approved</button>
+      </div>
+    <% else %>
+	    <div class="col-md-3 pull-right">
+	    <button type="button" class="btn btn-default btn-block btn-lg glyphicon">Pending</button>
+	    </div>
+    <% end %>
+    <div id="approve-button btn-group">
+    <% if res.request_status == "Approved" %>
+
+      <% else %>
+
+      <div class="col-md-3 pull-right">
+      
+      </div>
+    <% end %>
+
+    </div>
+
+    </span>
+    <span class="timestamp">
+      Borrow date: <%= res.borrow_date.strftime("%I:%M %p - %m/%d/%Y") %> |
+      Due date: <%= res.due_date.strftime("%I:%M %p - %m/%d/%Y") %> | 
+      User: <%= link_to (res.lent_id), user_path(res.lent_id) %>
+
+      
+    </span>
+  </li>
+<% end %>

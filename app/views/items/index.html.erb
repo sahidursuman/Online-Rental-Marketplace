@@ -36,7 +36,7 @@
   		<div class="panel-body">
   	  	<% if @user.items.any? %>
   	  	  <ol class="items">
-  	  	    <%= render @items %>
+  	  	    <%= render 'listings' %>
   	  	  </ol>
   	  	  <%= will_paginate @items %>
   	  	<% end %>

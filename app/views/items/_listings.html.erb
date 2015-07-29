@@ -1,0 +1,48 @@
+	<% @resr.each do |item, res| %>
+    <li id="item-<%= item.id %>">
+      <span class="content h3"><%= link_to (item.item_name), item_path(item) %>
+        <% if item.listing_status == "Unlisted" %>
+          <%= link_to "Finish Listing", edit_item_path(item), class: "btn btn-default  pull-right" %>
+        <% end %>
+        <% if item.lending_status == "Reserved" %>
+
+          <div class="col-md-3 well pull-right h5">
+          Pickup: <%= res.borrow_date.strftime("%I:%M %p-%m/%d/%Y") %>
+          </div>
+        
+
+          <% end %>
+      </span>
+
+      <% if item.lending_status == "Reserved" %>
+      <span class="content h3">
+      <div class="col-md-3 well pull-right h5">
+          Return: <%= res.due_date.strftime("%I:%M %p-%m/%d/%Y") %>
+          </div>
+      <% end %>
+      </span>
+
+
+      <span class="timestamp">
+        Price: $<%= item.lending_price %> | 
+        
+
+
+          <% if item.listing_status == "Unlisted" %>
+          Status: <span class="label label-warning"><%= item.lending_status %></span>
+          <% else %>
+            <% if item.lending_status == "Reserved" %>
+            Listing: <span class="label label-primary"><%= item.listing_status %></span> | 
+            Status:  <span class="label label-danger "><%= item.lending_status %></span>  
+                   
+            <% else %>
+            Listing: <span class="label label-primary"><%= item.listing_status %></span> | 
+            Status:  <span class="label label-success"><%= item.lending_status %></span>  
+
+            <% end %>
+          <% end %>
+          | <%= link_to "Edit listing", edit_item_path(item) %>
+
+      </span>
+    </li>
+    <% end %>

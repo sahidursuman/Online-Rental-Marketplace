@@ -18,7 +18,9 @@ class ItemsController < ApplicationController
       @items = query.all.paginate(page: session[:page])
 
     else
-  	  @items = current_user.items.paginate(page: session[:page])
+      @items = current_user.items.paginate(page: session[:page])
+      @reservations = Reservation.where(lender_id: @user.id)
+      @resr = @items.zip(@reservations)
     end
   end
 
@@ -26,17 +28,20 @@ class ItemsController < ApplicationController
     @user = User.find(session[:user_id])
     @reservations = Reservation.where(lent_id: @user.id,
                                       request_status: "Approved")
-    @items = @reservations.map(&:item).uniq
+    @items = @reservations.map(&:item)
     @items = @items.paginate(page: session[:page])
-    
+    #@due_in = hours:minutes
   end
 
   def requests
     @user = User.find(session[:user_id])
     @reservations = Reservation.where(lender_id: @user.id)
-    @items = @reservations.map(&:item).uniq
+    @requests = Reservation.where(lent_id: @user.id)
+    @req_items = @requests.map(&:item)
+    @items = @reservations.map(&:item)
     @items = @items.paginate(page: session[:page])
-
+    @reqs = @req_items.zip(@requests)
+    @resr = @items.zip(@reservations)
   end
 
   def approve
@@ -44,9 +49,10 @@ class ItemsController < ApplicationController
     @reservation.set_request_approved
     @item = Item.find(@reservation.item_id)
     @item.set_lending_status_reserved
+
+
     respond_to do |format|
       format.html { redirect_to my_requests_path}
-      format.js 
     end 
   end
 
@@ -104,6 +110,18 @@ class ItemsController < ApplicationController
  
 
 private
+
+  def charge_card
+    # Charge the card
+    Stripe.api_key = ENV['STRIPE_SECRET_KEY']
+    Stripe::Charge.create({
+      :amount => 1000,
+      :currency => "usd",
+      :source => token,
+      :destination => @lender_user.uid
+      #:application_fee => 
+    })
+  end
 
   def item_params
     params.require(:item).permit(:item_name, :lending_price, :description, :category, :available_from, :available_to)

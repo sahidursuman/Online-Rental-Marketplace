@@ -1,1 +1,1 @@
-$("#items_render").append("<%=raw escape_javascript(render(:partial => 'items/item', :collection => @items, :as => :item)) %>");
+$("#items_render").html("<%= escape_javascript(render(partial: 'items/item', locals: (item: @items))) %>");

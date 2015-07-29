@@ -41,8 +41,10 @@
       <div class="col-md-8">
         <div class="jumbotron">
           <div class="center">
-          Lending: <%= @lending_user.first_name %>
+          Lending: <%= @lending_user.first_name %><%= @date1 %>
           Lender: <%= @lender_user.first_name %>
+
+
             <form action="" method="POST">
               <script
                 src="https://checkout.stripe.com/checkout.js" class="stripe-button"

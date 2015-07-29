@@ -26,23 +26,63 @@
     	</ul>
     </section>
   </aside>
-  <div class="col-md-10">
-  	<div class="panel panel-default">
-  		<div class="panel-heading">
-  			<h3 class="panel-title">Requests (<%= @items.count %>)</h3>
-  		</div>
-  		<div class="panel-body">
-  	  	<% if @items.any? %>
-  	  	  <ol class="items">
-            <div id="items_render">
-  	  	    <%= render @items %>
-            </div>
-  	  	  </ol>
-  	  	  <%= will_paginate @items, remote: true %>
-  	  	<% end %>
-  	  </div>
-  	</div>
-  </div>
+  <% if @requests.any? %>
+
+    <div class="col-md-10">
+    	<div class="panel panel-default">
+    		<div class="panel-heading">
+    			<h3 class="panel-title">Requests (<%= @items.count %>)</h3>
+    		</div>
+    		<div class="panel-body">
+    	  	<% if @items.any? %>
+    	  	  <ol class="items">
+              <div id="items_render">
+    	  	    <%= render @items %>
+              </div>
+    	  	  </ol>
+    	  	  <%= will_paginate @items, remote: true %>
+    	  	<% end %>
+    	  </div>
+    	</div>
+    </div>
+
+    <div class="col-md-10">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Requested (<%= @req_items.count %>)</h3>
+        </div>
+        <div class="panel-body">
+          <% if @requests.any? %>
+            <ol class="items">
+              <div id="items_render">
+              <%= render 'requests' %>
+              </div>
+            </ol>
+            <%= will_paginate @items, remote: true %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+  <% else %>
+    <div class="col-md-10">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Requests (<%= @items.count %>)</h3>
+        </div>
+        <div class="panel-body">
+          <% if @items.any? %>
+            <ol class="items">
+              <div id="items_render">
+              <%= render @items %>
+              </div>
+            </ol>
+            <%= will_paginate @items, remote: true %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
 </div>
 
 <% end %>

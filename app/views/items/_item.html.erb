@@ -6,17 +6,17 @@
   <li id="item-<%= item.id %>">
     <span class="content h3"><%= link_to (item.item_name), item_path(item) %>
 
-      <div class="well h4 pull-right">Due date: <%= res.due_date.strftime("%I:%M %p") %></div>
+      <div class="well h4 pull-right">Due in: <%= distance_of_time_in_words(Time.now, res.due_date) %></div>
 
     </span>
     <span class="timestamp">
       Price: $<%= item.lending_price %> | 
       <% if item.lending_status == "Reserved" %>
-      Due back on: <%= reservation.due_date %> | Status: <span class="label label-danger">Available</span>
+      Due back on: <%= res.due_date.strftime("%I:%M %p - %m/%d/%Y") %> | Status: <span class="label label-danger"><%= item.lending_status %></span>
       <% else %>
       Status: <span class="label label-success">Available</span>
       <% end %>
-      | <%= link_to ("Edit listing"), edit_item_url(item) %>
+
 
     </span>
   </li>
@@ -42,10 +42,11 @@
     <% if res.request_status == "Approved" %>
 
       <% else %>
+
       <div class="col-md-3 pull-right">
-      <%= form_for(:approve, :url => { :controller => "items", :action => "approve" }, remote: true, html: {multipart: :true}) do |f| %>
+      <%= form_for(:approve, :url => { :controller => "items", :action => "approve" }, html: {multipart: :true}) do |f| %>
           <%= f.hidden_field :res_id, :value => res.id %>
-          <%= f.submit 'Add', class: "btn btn-default  " %>
+          <%= f.submit 'Approve', class: "btn btn-default  " %>
       <% end %>
       </div>
     <% end %>
@@ -54,8 +55,8 @@
 
     </span>
     <span class="timestamp">
-      Borrow date: <%= res.borrow_date.strftime("%I:%M %p") %> |
-      Due date: <%= res.due_date.strftime("%I:%M %p") %> | 
+      Borrow date: <%= res.borrow_date.strftime("%I:%M %p - %m/%d/%Y") %> |
+      Due date: <%= res.due_date.strftime("%I:%M %p - %m/%d/%Y") %> | 
       User: <%= link_to (res.lent_id), user_path(res.lent_id) %>
 
       
@@ -72,34 +73,8 @@
 
 
 
-<li id="item-<%= item.id %>">
-  <span class="content h3"><%= link_to (item.item_name), item_path(item) %>
-    <% if item.listing_status == "Unlisted" %>
-      <%= link_to "Finish Listing", edit_item_path(item), class: "btn btn-default  pull-right" %>
-    <% end %>
-  </span>
-  <span class="timestamp">
-    Price: $<%= item.lending_price %> | 
-    
 
 
-      <% if item.listing_status == "Unlisted" %>
-      Status: <span class="label label-warning"><%= item.lending_status %></span>
-      <% else %>
-        <% if item.lending_status == "Reserved" %>
-        Listing: <span class="label label-primary"><%= item.listing_status %></span> | 
-        Status:  <span class="label label-success"><%= item.lending_status %></span> | 
-                Due back on: <%= item.reservation.due_date %>
-        <% else %>
-        Listing: <span class="label label-primary"><%= item.listing_status %></span> | 
-        Status:  <span class="label label-success"><%= item.lending_status %></span>  
-
-        <% end %>
-      <% end %>
-      | <%= link_to "Edit listing", edit_item_path(item) %>
-
-  </span>
-</li>
 <% end %>
 
 
