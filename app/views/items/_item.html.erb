@@ -1,3 +1,5 @@
+<div id="item-row">
+
 <% if params[:controller] == 'items' && %w(my_reservations).include?(params[:action]) %>
 
 <% item.reservations.each do |res| %>
@@ -9,7 +11,7 @@
     </span>
     <span class="timestamp">
       Price: $<%= item.lending_price %> | 
-      <% if item.lending_status == "not available" %>
+      <% if item.lending_status == "Reserved" %>
       Due back on: <%= reservation.due_date %> | Status: <span class="label label-danger">Available</span>
       <% else %>
       Status: <span class="label label-success">Available</span>
@@ -20,7 +22,53 @@
   </li>
 <% end %>
 
+
+
+
+
+
+<% elsif params[:controller] == 'items' && %w(requests).include?(params[:action]) %>
+
+
+<% item.reservations.each do |res| %>
+  <li id="item-<%= item.id %>">
+    <span class="content h3"><%= link_to (item.item_name), item_path(item) %>
+    <% if res.request_status == "Approved" %>
+        <div class="col-md-3 pull-right">
+        <button type="button" class="btn btn-primary btn-block btn-lg glyphicon glyphicon-ok"></button>
+        </div>
+    <% end %>
+    <div id="approve-button btn-group">
+    <% if res.request_status == "Approved" %>
+
+      <% else %>
+      <div class="col-md-3 pull-right">
+      <%= form_for(:approve, :url => { :controller => "items", :action => "approve" }, remote: true, html: {multipart: :true}) do |f| %>
+          <%= f.hidden_field :res_id, :value => res.id %>
+          <%= f.submit 'Add', class: "btn btn-default  " %>
+      <% end %>
+      </div>
+    <% end %>
+
+    </div>
+
+    </span>
+    <span class="timestamp">
+      Borrow date: <%= res.borrow_date.strftime("%I:%M %p") %> |
+      Due date: <%= res.due_date.strftime("%I:%M %p") %> | 
+      User: <%= link_to (res.lent_id), user_path(res.lent_id) %>
+
+      
+    </span>
+  </li>
+<% end %>
+
+
 <% else %>
+
+
+
+
 
 
 
@@ -34,17 +82,37 @@
     Price: $<%= item.lending_price %> | 
     
 
-    <% if item.listing_status == "not available" %>
-    Due back on: <%= reservation.due_date %> | Status: <span class="label label-danger">Available</span>
-    <% else %>
-      <% if item.listing_status == "Unlisted" %>
-      Status: <span class="label label-warning">Unlisted</span> <div class=""></div>
 
+      <% if item.listing_status == "Unlisted" %>
+      Status: <span class="label label-warning"><%= item.lending_status %></span>
       <% else %>
-      Status: <span class="label label-success">Available</span>
+        <% if item.lending_status == "Reserved" %>
+        Listing: <span class="label label-primary"><%= item.listing_status %></span> | 
+        Status:  <span class="label label-success"><%= item.lending_status %></span> | 
+                Due back on: <%= item.reservation.due_date %>
+        <% else %>
+        Listing: <span class="label label-primary"><%= item.listing_status %></span> | 
+        Status:  <span class="label label-success"><%= item.lending_status %></span>  
+
+        <% end %>
       <% end %>
-    <% end %>
+      | <%= link_to "Edit listing", edit_item_path(item) %>
 
   </span>
 </li>
 <% end %>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -15,6 +15,36 @@ class Item < ActiveRecord::Base
   	Item.where("user_id = ?", id)
   end
 
+  def edit_sections_present?(item)
+    if item.photos.present? && item.location.present? && item.calendar.present?
+      return true
+    end
+  end
+
+  def finish_listing
+    update_attributes({
+      listing_status: "Listed",
+      lending_status: "Available"
+    })
+  end
+
+  def set_lending_status_reserved
+    update_attribute( lending_status: "Reserved")
+  end
+
+  def set_lending_status_available
+    update_attribute( lending_status: "Available")
+  end
+
+  def set_listing_status_listed
+    update_attribute( listing_status: "Listed")
+  end
+
+  def set_listing_status_unlisted
+    update_attribute( listing_status: "Unlisted")
+  end
+
+
   def default_values
   	self.lending_status = "Available" if self.lending_status.nil?
   end

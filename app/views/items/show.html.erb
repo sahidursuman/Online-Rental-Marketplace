@@ -38,7 +38,14 @@
     <%= hidden_field_tag "lending_id", @lending_user.id %>
     <%= hidden_field_tag "lender_id", @lender_user.id %>
     <%= hidden_field_tag "item_id", @item.id %>
+    <% if @lending_user.id == @lender_user.id %>
+    <button type="button" class="btn btn-primary btn-block btn-lg ">Request Reservation</button>
+      <div class="center">
+      <h4><small>(Your item)</small></h4>
+      </div>
+    <% else %>
     <%= submit_tag "Request Reservation", class: "btn btn-primary btn-block btn-lg form-control" %>
+    <% end %>
   </div>
   <% end %>
   
@@ -66,6 +73,7 @@
      });
     $('#borrow_date').datetimepicker({
       minDate:'0',
+      minTime:'0',
       formatTime: 'g:i A',
       ampm: true
 
@@ -74,6 +82,8 @@
 
     $('#due_date').datetimepicker({
       minDate:'0',
+      minTime:'0',
+      
       formatTime: 'g:i A',
       ampm: true
     });

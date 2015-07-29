@@ -14,12 +14,12 @@
               <i class="glyphicon glyphicon-list"> Listings</i>
               <% end %>
               </li>
-              <li role="presentation"><%= link_to my_requests_path(@item) do %> 
+              <li role="presentation" class="active"><%= link_to my_requests_path(@item) do %> 
               <i class="glyphicon glyphicon-inbox"> Requests</i>
               <% end %>
               </li>
             <% end %>
-            <li role="presentation" class="active"><%= link_to my_reservations_path(@item) do %> 
+            <li role="presentation" class=""><%= link_to my_reservations_path(@item) do %> 
             <i class="glyphicon glyphicon-shopping-cart"> Reservations</i>
             <% end %>
             </li>
@@ -29,14 +29,16 @@
   <div class="col-md-10">
   	<div class="panel panel-default">
   		<div class="panel-heading">
-  			<h3 class="panel-title">Reservations (<%= @reservations.count %>)</h3>
+  			<h3 class="panel-title">Requests (<%= @reservations.count %>)</h3>
   		</div>
   		<div class="panel-body">
   	  	<% if @reservations.any? %>
   	  	  <ol class="items">
+            <div id="items_render">
   	  	    <%= render @items %>
+            </div>
   	  	  </ol>
-  	  	  <%= will_paginate @items %>
+  	  	  <%= will_paginate @items, remote: true %>
   	  	<% end %>
   	  </div>
   	</div>

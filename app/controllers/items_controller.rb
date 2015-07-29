@@ -24,11 +24,29 @@ class ItemsController < ApplicationController
 
   def my_reservations
     @user = User.find(session[:user_id])
-    @reservations = Reservation.where(lent_id: @user.id)
-
+    @reservations = Reservation.where(lent_id: @user.id,
+                                      request_status: "Approved")
     @items = @reservations.map(&:item).uniq
     @items = @items.paginate(page: session[:page])
     
+  end
+
+  def requests
+    @user = User.find(session[:user_id])
+    @reservations = Reservation.where(lender_id: @user.id)
+    @items = @reservations.map(&:item).uniq
+    @items = @items.paginate(page: session[:page])
+
+  end
+
+  def approve
+    @reservation = Reservation.find(params[:approve][:res_id])
+    @reservation.set_request_approved
+
+    respond_to do |format|
+      format.html { redirect_to my_requests_path}
+      format.js 
+    end 
   end
 
   def show
@@ -49,7 +67,10 @@ class ItemsController < ApplicationController
     if @item.save
       flash[:success] = "3 more steps."
       redirect_to edit_item_path(@item)
-      @item.update_attribute(:listing_status, "Unlisted")
+      @item.update_attributes({
+      listing_status: "Unlisted",
+      lending_status: "Unavailable"
+      })
     else
       render root_url
     end
@@ -97,6 +118,17 @@ private
     redirect_to rack_url if @reservations.nil?
   end
 
+  def charge_card
+    # Charge the card
+    Stripe.api_key = ENV['STRIPE_SECRET_KEY']
+    Stripe::Charge.create({
+      :amount => 1000,
+      :currency => "usd",
+      :source => token,
+      :destination => @lender_user.uid
+      #:application_fee => 
+    })
+  end
 
 
 end

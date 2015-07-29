@@ -8,6 +8,11 @@ class Reservation < ActiveRecord::Base
   end
 
   def set_request_status
-  	self.request_status = "Pending"
+  	update_attributes(request_status: "Pending")
   end
+
+  def set_request_approved
+  	update_attributes( request_status: "Approved")
+  end
+
 end

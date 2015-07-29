@@ -14,6 +14,9 @@ class LocationsController < ApplicationController
   	@item = Item.find params[:location][:item_id]
   	@location = @item.build_location(location_params)
 		if @location.save
+      if @item.edit_sections_present?(@item)
+        @item.finish_listing
+      end
       respond_to do |format|
 				format.html { redirect_to item_calendar_url(@item)}
 				format.js 
@@ -33,6 +36,9 @@ class LocationsController < ApplicationController
     @item = @location.item
     if @location.update_attributes(location_params)
       redirect_to item_calendar_url(@item)
+      if @item.edit_sections_present?(@item)
+        @item.finish_listing
+      end
     else
       render edit_location_path(@item)
     end

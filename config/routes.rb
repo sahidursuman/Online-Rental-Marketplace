@@ -51,6 +51,10 @@ Rails.application.routes.draw do
 
   get 'rack/my-reservations' => 'items#my_reservations', as: :my_reservations
 
+  get 'rack/requests' => 'items#requests', as: :my_requests
+
+  post 'rack/requests' => 'items#approve'
+
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
 
   resources :items, only: [:index, :new, :create, :destroy, :edit, :update, :update_calendar, :show]
@@ -63,3 +67,19 @@ Rails.application.routes.draw do
   resources :password_resets, only: [:new, :create, :edit, :update]
   resources :picture_contents, only: [:create]
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -73,7 +73,7 @@
   </div>
 
 <% if params[:controller] == 'users' && %w(dashboard account).include?(params[:action]) ||
-                              'items' && %w(index my_reservations).include?(params[:action]) %>
+                              'items' && %w(index my_reservations requests).include?(params[:action]) %>
   <% if params[:commit] != "Search" %>
   <%= render 'layouts/secondnavbar' %>
   <% end %>
