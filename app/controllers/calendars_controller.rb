@@ -15,9 +15,11 @@ class CalendarsController < ApplicationController
   	@calendar = @item.build_calendar(calendar_params)
 
 		if @calendar.save
+      if @item.edit_sections_present?(@item)
+        @item.finish_listing
+      end
       respond_to do |format|
-				format.html { redirect_to item_calendar_url(@item)}
-        finish_listing
+				format.html { redirect_to rack_path}
 			end	
     else
       render item_calendar_url(@item)
@@ -31,7 +33,7 @@ class CalendarsController < ApplicationController
     if @item.edit_sections_present?(@item)
       @item.finish_listing
     end
-    redirect_to item_calendar_url(@item)
+    redirect_to rack_path
     
   end
 

@@ -59,7 +59,17 @@ require 'date'
 	    params.permit :stripeEmail, :stripeToken, :borrow_date, :due_date, :item_id
 	  end
 
-
+	  def charge_card
+	  	# Charge the card
+			Stripe.api_key = ENV['STRIPE_SECRET_KEY']
+			Stripe::Charge.create({
+			  :amount => 1000,
+			  :currency => "usd",
+			  :source => token,
+			  :destination => @lender_user.uid
+			  #:application_fee => 
+			})
+		end
 
 end
 
