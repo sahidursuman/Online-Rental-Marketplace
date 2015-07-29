@@ -42,7 +42,8 @@ class ItemsController < ApplicationController
   def approve
     @reservation = Reservation.find(params[:approve][:res_id])
     @reservation.set_request_approved
-
+    @item = Item.find(@reservation.item_id)
+    @item.set_lending_status_reserved
     respond_to do |format|
       format.html { redirect_to my_requests_path}
       format.js 

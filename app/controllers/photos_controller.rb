@@ -11,12 +11,10 @@ class PhotosController < ApplicationController
 	end
 
 	def create
-		item = Item.find(params[:item_id])
-  		@photo = @item.photos.build(photo_params)
+		@item = Item.find(params[:photo][:item_id])
+		@photo = Photo.create(photo_params)
 		if @photo.save
-			if @item.edit_sections_present?(@item)
-      	@item.finish_listing
-    	end
+			
     	respond_to do |format|
 			format.html { redirect_to edit_photos_url(@item)}
 			format.js 

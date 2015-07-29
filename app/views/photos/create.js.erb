@@ -1,1 +1,1 @@
-$("#photo-row").html("<%= escape_javascript(render('photos/showpics')) %>");
+$("#photo-row").html("<%=raw escape_javascript(render(:partial => 'photos/showpics', :collection => @photo, :as => photo)) %>");
