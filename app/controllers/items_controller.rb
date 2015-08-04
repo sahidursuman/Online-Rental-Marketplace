@@ -36,8 +36,26 @@ class ItemsController < ApplicationController
   def requests
     @user = User.find(session[:user_id])
     @reservations = Reservation.where(lender_id: @user.id)
+    @reservations.each do |res|
+      if Time.now > res.borrow_date && res.request_status != "Passed"
+        res.update_attributes( request_status: "Passed")
+      end
+    end
+    @reservations = @reservations.where( "request_status like ?", "Pending")
+
+
+
     @requests = Reservation.where(lent_id: @user.id)
+    @requests.each do |res|
+      if Time.now > res.borrow_date && res.request_status != "Passed"
+        res.update_attributes( request_status: "Passed")
+      end
+    end
     @req_items = @requests.map(&:item)
+    @req_count = @requests.where("request_status == ? OR request_status == ?", "Approved", "Pending") #Current requests that are pending or approved
+                                # ^ withing dates greater than Time.now
+
+
     @items = @reservations.map(&:item)
     @items = @items.paginate(page: session[:page])
     @reqs = @req_items.zip(@requests)
@@ -46,14 +64,24 @@ class ItemsController < ApplicationController
 
   def approve
     @reservation = Reservation.find(params[:approve][:res_id])
-    @reservation.set_request_approved
+
     @item = Item.find(@reservation.item_id)
-    @item.set_lending_status_reserved
+    if @reservation.request_status == "Passed"
+      redirect_to my_requests_path(@item) and return
+      flash.keep[:warning] = "Borrow date is passed"
+    end
+    if @reservation.request_status == "Pending"
+      @reservation.set_lending_status_reserved
+    end
+    @reservation.set_request_approved
+    @customer = User.find(@reservation.lent_id)
 
+    @lender_id = current_user.uid
+    @customer_id = @customer.customer_id
+    @price = @item.lending_price
+    @fee = 
 
-    respond_to do |format|
-      format.html { redirect_to my_requests_path}
-    end 
+    redirect_to my_requests_path(@item)
   end
 
   def show
@@ -111,7 +139,7 @@ class ItemsController < ApplicationController
 
 private
 
-  def charge_card
+  def charge_card(lender, customer, subtotal, fee)
     # Charge the card
     Stripe.api_key = ENV['STRIPE_SECRET_KEY']
     Stripe::Charge.create({

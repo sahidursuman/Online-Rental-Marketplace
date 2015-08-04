@@ -1,10 +1,15 @@
 
 <% @reqs.each do |item, res| %>
+  <% unless res.request_status == "Passed" %>
   <li id="item-<%= item.id %>">
     <span class="content h3"><%= link_to (item.item_name), item_path(item) %>
     <% if res.request_status == "Approved" %>
       <div class="col-md-3 pull-right">
       <button type="button" class="btn btn-primary btn-block btn-lg glyphicon">Approved</button>
+      </div>
+    <% elsif res.request_status == "Passed" %>
+      <div class="col-md-3 pull-right">
+      <button type="button" class="btn btn-warning btn-block btn-lg glyphicon">Passed</button>
       </div>
     <% else %>
 	    <div class="col-md-3 pull-right">
@@ -32,4 +37,6 @@
       
     </span>
   </li>
+
+  <% end %> <!-- End of unless -->
 <% end %>

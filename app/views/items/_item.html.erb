@@ -3,6 +3,7 @@
 <% if params[:controller] == 'items' && %w(my_reservations).include?(params[:action]) %>
 
 <% item.reservations.each do |res| %>
+  <% unless res.request_status == "Passed" %>
   <li id="item-<%= item.id %>">
     <span class="content h3"><%= link_to (item.item_name), item_path(item) %>
 
@@ -20,6 +21,7 @@
 
     </span>
   </li>
+  <% end %> <!-- End of unless -->
 <% end %>
 
 
@@ -31,12 +33,15 @@
 
 
 <% item.reservations.each do |res| %>
+  <% unless res.request_status == "Passed" %>
   <li id="item-<%= item.id %>">
     <span class="content h3"><%= link_to (item.item_name), item_path(item) %>
     <% if res.request_status == "Approved" %>
         <div class="col-md-3 pull-right">
         <button type="button" class="btn btn-primary btn-block btn-lg glyphicon glyphicon-ok"></button>
         </div>
+    <% elsif res.request_status == "Passed" %>
+
     <% end %>
     <div id="approve-button btn-group">
     <% if res.request_status == "Approved" %>
@@ -62,6 +67,7 @@
       
     </span>
   </li>
+  <% end %> <!-- End of unless -->
 <% end %>
 
 

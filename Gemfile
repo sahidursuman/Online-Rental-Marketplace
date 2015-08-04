@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'browser-timezone-rails', '0.0.8'
 gem 'pusher'
 gem 'figaro'
 gem 'sinatra'

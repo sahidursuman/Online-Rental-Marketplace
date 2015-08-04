@@ -56,7 +56,10 @@
                 data-email=<%= @lending_user.email%>
                 data-label="Request reservation"
                 >
+
               </script>
+                <input value=<%= @subtotal %> type="hidden" name="subtotal" />
+                <input value=<%= @fee %> type="hidden" name="fee" />
 
             </form>
           </div>
