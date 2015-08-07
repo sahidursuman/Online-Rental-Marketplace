@@ -1,13 +1,20 @@
-<% @resr.each do |item, res| %>
+
+<% @reqs.each do |item, res| %>
 
   <li id="item-<%= item.id %>">
     <span class="content h3"><%= link_to (item.item_name), item_path(item) %>
     <% if res.request_status == "Approved" %>
-        <div class="col-md-3 pull-right">
-        <button type="button" class="btn btn-primary btn-block btn-lg glyphicon glyphicon-ok"></button>
-        </div>
+      <div class="col-md-3 pull-right">
+      <button type="button" class="btn btn-primary btn-block btn-lg glyphicon">Approved</button>
+      </div>
     <% elsif res.request_status == "Passed" %>
-
+      <div class="col-md-3 pull-right">
+      <button type="button" class="btn btn-warning btn-block btn-lg glyphicon">Passed</button>
+      </div>
+    <% else %>
+	    <div class="col-md-3 pull-right">
+	    <button type="button" class="btn btn-default btn-block btn-lg glyphicon">Pending</button>
+	    </div>
     <% end %>
     <div id="approve-button btn-group">
     <% if res.request_status == "Approved" %>
@@ -15,10 +22,7 @@
       <% else %>
 
       <div class="col-md-3 pull-right">
-      <%= form_for(:approve, :url => { :controller => "items", :action => "approve" }, html: {multipart: :true}) do |f| %>
-          <%= f.hidden_field :res_id, :value => res.id %>
-          <%= f.submit 'Approve', class: "btn btn-default  " %>
-      <% end %>
+      
       </div>
     <% end %>
 
@@ -33,5 +37,6 @@
       
     </span>
   </li>
+
 
 <% end %>

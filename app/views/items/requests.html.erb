@@ -37,7 +37,7 @@
     	  	<% if @items.any? %>
     	  	  <ol class="items">
               <div id="items_render">
-    	  	    <%= render @items %>
+    	  	    <%= render 'requests' %>
               </div>
     	  	  </ol>
     	  	  <%= will_paginate @items, remote: true %>
@@ -55,7 +55,7 @@
           <% if @requests.any? %>
             <ol class="items">
               <div id="items_render">
-              <%= render 'requests' %>
+              <%= render 'requested' %>
               </div>
             </ol>
             <%= will_paginate @items, remote: true %>
@@ -63,6 +63,10 @@
         </div>
       </div>
     </div>
+
+
+
+
 
   <% else %>
     <div class="col-md-10">
@@ -74,7 +78,7 @@
           <% if @items.any? %>
             <ol class="items">
               <div id="items_render">
-              <%= render @items %>
+              <%= render 'requests' %>
               </div>
             </ol>
             <%= will_paginate @items, remote: true %>

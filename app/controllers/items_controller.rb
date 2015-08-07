@@ -19,8 +19,13 @@ class ItemsController < ApplicationController
 
     else
       @items = current_user.items.paginate(page: session[:page])
-      @reservations = Reservation.where(lender_id: @user.id)
-      @resr = @items.zip(@reservations)
+      @items.each do |item| 
+        if item.reservations.last.present?
+          if Time.zone.now > item.reservations.last.borrow_date.in_time_zone && item.reservations.last.request_status != "Passed"
+            item.reservations.last.update_attributes( request_status: "Passed")
+          end
+        end
+      end
     end
   end
 
@@ -34,10 +39,12 @@ class ItemsController < ApplicationController
   end
 
   def requests
+    
+
     @user = User.find(session[:user_id])
     @reservations = Reservation.where(lender_id: @user.id)
     @reservations.each do |res|
-      if Time.now > res.borrow_date && res.request_status != "Passed"
+      if Time.zone.now > res.borrow_date.in_time_zone && res.request_status != "Passed"
         res.update_attributes( request_status: "Passed")
       end
     end
@@ -47,12 +54,14 @@ class ItemsController < ApplicationController
 
     @requests = Reservation.where(lent_id: @user.id)
     @requests.each do |res|
-      if Time.now > res.borrow_date && res.request_status != "Passed"
+      if Time.zone.now > res.borrow_date.in_time_zone && res.request_status != "Passed"
         res.update_attributes( request_status: "Passed")
       end
     end
+
+
     @req_items = @requests.map(&:item)
-    @req_count = @requests.where("request_status == ? OR request_status == ?", "Approved", "Pending") #Current requests that are pending or approved
+    @req_count = @requests.where("request_status == ?", "Pending") #Current requests that are pending or approved
                                 # ^ withing dates greater than Time.now
 
 
@@ -70,18 +79,24 @@ class ItemsController < ApplicationController
       redirect_to my_requests_path(@item) and return
       flash.keep[:warning] = "Borrow date is passed"
     end
-    if @reservation.request_status == "Pending"
-      @reservation.set_lending_status_reserved
-    end
-    @reservation.set_request_approved
+
     @customer = User.find(@reservation.lent_id)
 
     @lender_id = current_user.uid
     @customer_id = @customer.customer_id
-    @price = @item.lending_price
-    @fee = 
+    @token = @customer.token
+    @subtotal = (@reservation.subtotal.to_f*100).to_i
+    @fee = (@reservation.fee.to_f*100).to_i
 
-    redirect_to my_requests_path(@item)
+    #Attempt to charge card
+    if charge_card(@lender_id, @customer_id, @token, @subtotal, @fee) && 
+            Time.zone.now > @reservation.borrow_date.in_time_zone
+      @reservation.set_request_approved
+      @item.set_lending_status_reserved
+      redirect_to my_requests_path(@item)
+    else
+      redirect_to my_requests_path(@item) and return
+    end
   end
 
   def show
@@ -139,20 +154,20 @@ class ItemsController < ApplicationController
 
 private
 
-  def charge_card(lender, customer, subtotal, fee)
+  def charge_card(lender, customer, token, subtotal, fee) 
     # Charge the card
     Stripe.api_key = ENV['STRIPE_SECRET_KEY']
     Stripe::Charge.create({
-      :amount => 1000,
+      :amount => subtotal,
       :currency => "usd",
       :source => token,
-      :destination => @lender_user.uid
-      #:application_fee => 
-    })
+      :destination => lender,
+      :application_fee => fee
+      })
   end
 
   def item_params
-    params.require(:item).permit(:item_name, :lending_price, :description, :category, :available_from, :available_to)
+    params.require(:item).permit(:item_name, :value, :lending_price, :description, :category, :available_from, :available_to)
   end
 
   def correct_user
@@ -165,17 +180,19 @@ private
     redirect_to rack_url if @reservations.nil?
   end
 
-  def charge_card
-    # Charge the card
-    Stripe.api_key = ENV['STRIPE_SECRET_KEY']
-    Stripe::Charge.create({
-      :amount => 1000,
-      :currency => "usd",
-      :source => token,
-      :destination => @lender_user.uid
-      #:application_fee => 
-    })
-  end
-
 
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+

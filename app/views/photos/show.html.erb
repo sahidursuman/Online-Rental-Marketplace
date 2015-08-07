@@ -54,6 +54,7 @@
 
 
       <div class="col-xs-4 col-sm-4 col-md-4 col-md-offset-4">
+      
       <%= form_for(Photo.new, remote: true, html: {multipart: :true}) do |f| %>
 
         <%= f.label :image, 'Choose Image' %>

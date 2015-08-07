@@ -1,74 +1,45 @@
 
 
-<% if params[:controller] == 'items' && %w(my_reservations).include?(params[:action]) %>
+<% if params[:controller] == 'items' && %w(my_reservations index).include?(params[:action]) %>
 
-<% item.reservations.each do |res| %>
-  <% unless res.request_status == "Passed" %>
+<% @items.each do |item| %>
+
   <li id="item-<%= item.id %>">
     <span class="content h3"><%= link_to (item.item_name), item_path(item) %>
 
-      <div class="well h4 pull-right">Due in: <%= distance_of_time_in_words(Time.now, res.due_date) %></div>
+      <% if item.reservations.last.present? && item.reservations.last.request_status.present? && item.reservations.last.request_status == "Reserved" %>
+      <div class="well h4 pull-right">
+        Due in: <%= distance_of_time_in_words(Time.now.in_time_zone, item.reservations.last.due_date) %>
+      </div>
+      <% end %>
 
     </span>
     <span class="timestamp">
       Price: $<%= item.lending_price %> | 
-      <% if item.lending_status == "Reserved" %>
-      Due back on: <%= res.due_date.strftime("%I:%M %p - %m/%d/%Y") %> | Status: <span class="label label-danger"><%= item.lending_status %></span>
+
+      <% if item.reservations.last.present? && item.reservations.last.request_status.present? && item.reservations.last.request_status == "Reserved" %>
+        Due back on: <%= item.reservations.last.due_date.in_time_zone.strftime("%I:%M %p - %m/%d/%Y") if item.reservations.last.present? %>
+        | Status: <span class="label label-danger"><%= item.lending_status %></span>
       <% else %>
       Status: <span class="label label-success">Available</span>
       <% end %>
 
 
+
     </span>
   </li>
-  <% end %> <!-- End of unless -->
+
+<% end %>
+
 <% end %>
 
 
 
 
+<% if params[:controller] == 'items' && %w(requests).include?(params[:action]) %>
 
 
-<% elsif params[:controller] == 'items' && %w(requests).include?(params[:action]) %>
 
-
-<% item.reservations.each do |res| %>
-  <% unless res.request_status == "Passed" %>
-  <li id="item-<%= item.id %>">
-    <span class="content h3"><%= link_to (item.item_name), item_path(item) %>
-    <% if res.request_status == "Approved" %>
-        <div class="col-md-3 pull-right">
-        <button type="button" class="btn btn-primary btn-block btn-lg glyphicon glyphicon-ok"></button>
-        </div>
-    <% elsif res.request_status == "Passed" %>
-
-    <% end %>
-    <div id="approve-button btn-group">
-    <% if res.request_status == "Approved" %>
-
-      <% else %>
-
-      <div class="col-md-3 pull-right">
-      <%= form_for(:approve, :url => { :controller => "items", :action => "approve" }, html: {multipart: :true}) do |f| %>
-          <%= f.hidden_field :res_id, :value => res.id %>
-          <%= f.submit 'Approve', class: "btn btn-default  " %>
-      <% end %>
-      </div>
-    <% end %>
-
-    </div>
-
-    </span>
-    <span class="timestamp">
-      Borrow date: <%= res.borrow_date.strftime("%I:%M %p - %m/%d/%Y") %> |
-      Due date: <%= res.due_date.strftime("%I:%M %p - %m/%d/%Y") %> | 
-      User: <%= link_to (res.lent_id), user_path(res.lent_id) %>
-
-      
-    </span>
-  </li>
-  <% end %> <!-- End of unless -->
-<% end %>
 
 
 <% else %>
