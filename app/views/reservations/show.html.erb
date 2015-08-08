@@ -44,8 +44,15 @@
       <div class="col-md-8">
         <div class="jumbotron">
           <div class="center">
-          Lending: <%= @lending_user.first_name %><%= @date1 %>
+          Lending: <%= @lending_user.first_name %>
           Lender: <%= @lender_user.first_name %>
+          <br>
+
+          <% @reservations.each do |res| %>
+     
+              <%= @d1 %> | <%= res.borrow_date %> | <%= @d2 %> | <%= res.due_date %> 
+     
+          <% end %>
 
 
             <form action="" method="POST">

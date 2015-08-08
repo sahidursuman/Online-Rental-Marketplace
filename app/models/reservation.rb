@@ -1,5 +1,6 @@
 class Reservation < ActiveRecord::Base
   belongs_to :item, class_name: 'Item', foreign_key: 'item_id'
+  has_many :transactions
   before_create :set_requested
   before_create :set_request_status
 
@@ -12,7 +13,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def set_request_approved
-  	update_attributes( request_status: "Approved")
+  	self.update_attributes( request_status: "Approved")
   end
 
 end

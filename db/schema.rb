@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150807113048) do
+ActiveRecord::Schema.define(version: 20150808032853) do
 
   create_table "calendars", force: :cascade do |t|
     t.integer  "item_id"
@@ -44,14 +44,14 @@ ActiveRecord::Schema.define(version: 20150807113048) do
   create_table "items", force: :cascade do |t|
     t.integer  "user_id"
     t.text     "item_name"
-    t.string   "lending_price"
+    t.decimal  "lending_price"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.string   "category"
     t.string   "lending_status"
     t.text     "description"
     t.string   "listing_status"
-    t.string   "value"
+    t.decimal  "value"
   end
 
   add_index "items", ["user_id", "created_at"], name: "index_items_on_user_id_and_created_at"
@@ -113,15 +113,25 @@ ActiveRecord::Schema.define(version: 20150807113048) do
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.string   "requested"
-    t.string   "subtotal"
-    t.string   "fee"
-    t.string   "deposit"
+    t.decimal  "subtotal"
+    t.decimal  "fee"
+    t.decimal  "deposit"
   end
 
   add_index "reservations", ["item_id", "lender_id", "lent_id"], name: "index_reservations_on_item_id_and_lender_id_and_lent_id"
   add_index "reservations", ["item_id"], name: "index_reservations_on_item_id"
   add_index "reservations", ["lender_id"], name: "index_reservations_on_lender_id"
   add_index "reservations", ["lent_id"], name: "index_reservations_on_lent_id"
+
+  create_table "transactions", force: :cascade do |t|
+    t.integer  "reservation_id"
+    t.decimal  "amount"
+    t.string   "transaction_type"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "transactions", ["reservation_id"], name: "index_transactions_on_reservation_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "first_name"

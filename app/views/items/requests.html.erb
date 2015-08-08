@@ -14,11 +14,12 @@
               <i class="glyphicon glyphicon-list"> Listings</i>
               <% end %>
               </li>
-              <li role="presentation" class="active"><%= link_to my_requests_path(@item) do %> 
-              <i class="glyphicon glyphicon-inbox"> Requests</i>
-              <% end %>
-              </li>
             <% end %>
+            <li role="presentation" class="active"><%= link_to my_requests_path(@item) do %> 
+            <i class="glyphicon glyphicon-inbox"> Requests</i>
+            <% end %>
+            </li>
+            
             <li role="presentation" class=""><%= link_to my_reservations_path(@item) do %> 
             <i class="glyphicon glyphicon-shopping-cart"> Reservations</i>
             <% end %>

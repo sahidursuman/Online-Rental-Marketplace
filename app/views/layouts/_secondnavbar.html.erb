@@ -4,7 +4,16 @@
                 <ul class="nav navbar-nav">
                     <li <% if current_page?(dashboard_path) -%>class="active"<% end -%>><%= link_to "Dashboard", dashboard_path %></li>
                     <li class="divider-vertical"></li>
-                    <li <% if current_page?(rack_path) || current_page?(reservations_path) -%>class="active"<% end -%>><%= link_to "Rack", rack_path %></li>
+                    <li <% if current_page?(rack_path) || current_page?(my_reservations_path) || current_page?(my_requests_path) 
+                        -%>class="active"<% end -%>>
+
+                    <% if current_user.uid.blank? %>
+                    <%= link_to "Rack", my_requests_path %></li>
+                    <% else %>
+                    <%= link_to "Rack", rack_path %></li>
+
+                    <% end %>
+                    
                     <li class="divider-vertical"></li>
                     <li <% if current_page?(account_path) -%>class="active"<% end -%>><%= link_to "Account", account_path %></li>
                 </ul>

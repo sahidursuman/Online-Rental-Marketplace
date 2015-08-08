@@ -5,21 +5,23 @@ require 'date'
 		@item = Item.find_by_id(params[:item_id])
     
 		if params[:lending_id] == params[:lender_id]
-      flash[:notice] = "Cannot reseve your own item."
+      flash[:info] = "Cannot reseve your own item."
       redirect_back_or item_path(@item)
       
     end
 
     if Time.zone.now > params[:borrow_date].in_time_zone
-    	flash.keep[:notice] = "Cannot reseve in the past."
+    	flash.keep[:info] = "Cannot reseve in the past."
     	redirect_to item_path(@item) and return
       
     end
 
+    offset = ActiveSupport::TimeZone.new(cookies["browser.timezone"]).utc_offset()
+
 		@d1 = params[:borrow_date]
 		@d2 = params[:due_date]
-		@date1 = @d1.to_datetime
-		@date2 = @d2.to_datetime
+		@date1 = @d1.to_datetime.in_time_zone
+		@date2 = @d2.to_datetime.in_time_zone
 		@lending_user = User.find(session[:user_id])
 		@lender_user = User.find_by_id(@item.user_id)
 		@deposit = (@item.value.to_f * 0.3).round(2)
@@ -33,17 +35,20 @@ require 'date'
 
 		###
 		@reservations = Reservation.where(lender_id: @item.user_id,
+																			item_id: @item.id,
                                       request_status: "Approved")
     @reserved = nil
-    @reservations.each do |res|
-    	if @date1 > res.borrow_date  &&  @date2 < res.due_date
-    		@reserved = true
-    	end
-    end
-    if @reserved == true
-    	flash.keep[:info] = "Item is already reserved for those dates + times."
-    	redirect_to item_path(@item) and return
-    end
+    if @reservations
+	    @reservations.each do |res|
+	    	if res.borrow_date >= @d1.in_time_zone ||  @d2.in_time_zone <= res.due_date 
+	    		@reserved = true
+	    	end
+	    end
+	    if @reserved == true
+	    	flash.keep[:info] = "Item is already reserved for those dates + times."
+	    	redirect_to item_path(@item) and return
+	    end
+  	end
     ###
 
 	end
@@ -51,13 +56,17 @@ require 'date'
 	def create
 
 		@item = Item.find_by_id(params[:item_id])
-
+		@d1 = params[:borrow_date]
+		@d2 = params[:due_date]
+		@date1 = @d1.to_datetime.in_time_zone
+		@date2 = @d2.to_datetime.in_time_zone
 		###
 		@reservations = Reservation.where(lender_id: @item.user_id,
+																			item_id: @item.id,
                                       request_status: "Approved")
     @reserved = nil
     @reservations.each do |res|
-    	if @date1 > res.borrow_date  &&  @date2 < res.due_date
+    	if res.borrow_date >= @d1.in_time_zone ||  @d2.in_time_zone <= res.due_date 
     		@reserved = true
     	end
     end
@@ -97,7 +106,7 @@ require 'date'
 			lender = @lender_user.uid
 		else
 			customer = Stripe::Customer.create(
-		  :source => token,
+		  :source => params[:stripeToken],
 		  :description => "#{@lending_user.first_name} #{@lending_user.last_name}"
 			)
 			# Save customer ID in database

@@ -82,21 +82,30 @@ class ItemsController < ApplicationController
 
     @customer = User.find(@reservation.lent_id)
 
-    @lender_id = current_user.uid
+    @lender_id = User.find(@reservation.lender_id)
     @customer_id = @customer.customer_id
     @token = @customer.token
     @subtotal = (@reservation.subtotal.to_f*100).to_i
     @fee = (@reservation.fee.to_f*100).to_i
 
     #Attempt to charge card
-    if charge_card(@lender_id, @customer_id, @token, @subtotal, @fee) && 
-            Time.zone.now > @reservation.borrow_date.in_time_zone
+
+    if charge_card(@lender_id, @customer_id, @token, @subtotal, @fee) && @reservation.borrow_date > Time.zone.now 
+            
       @reservation.set_request_approved
       @item.set_lending_status_reserved
-      redirect_to my_requests_path(@item)
+      Transaction.create(reservation_id: @reservation.id,
+                         amount: @reservation.subtotal,
+                         transaction_type: "Charge" )
+      Transaction.create(reservation_id: @reservation.id,
+                         amount: @reservation.fee,
+                         transaction_type: "Fee" )
+      flash.keep[:notice] = "'#{@item.item_name}' was charged. Please prepare your item for pickup."
+      redirect_to rack_path
     else
       redirect_to my_requests_path(@item) and return
     end
+
   end
 
   def show
@@ -161,7 +170,7 @@ private
       :amount => subtotal,
       :currency => "usd",
       :source => token,
-      :destination => lender,
+      :destination => "acct_16T12ZBPUpjt04Z3",
       :application_fee => fee
       })
   end
@@ -178,6 +187,11 @@ private
   def correct_reservations
     @reservations = Reservation.where(lent_id: current_user.id)
     redirect_to rack_url if @reservations.nil?
+  end
+
+  def is_merchant
+    @merchant = current_user.uid
+    redirect_to rack_url if @merchant.nil?
   end
 
 
