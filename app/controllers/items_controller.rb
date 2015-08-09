@@ -1,7 +1,8 @@
 class ItemsController < ApplicationController
-  before_action :logged_in_user, only: [:index, :new, :create, :destroy, :update]
-  before_action :correct_user,   only: [:destroy, :edit, :update]
+  before_action :logged_in_user, only: [:index, :my_reservations, :requests, :new, :create, :destroy, :update]
+  before_action :correct_user,   only: [:destroy, :edit, :create, :update]
   before_action :correct_reservations, only: :my_reservations
+  before_action :correct_lender, only: :approve
 
   include ItemsHelper
 
@@ -19,13 +20,18 @@ class ItemsController < ApplicationController
 
     else
       @items = current_user.items.paginate(page: session[:page])
-      @items.each do |item| 
-        if item.reservations.last.present?
-          if Time.zone.now > item.reservations.last.borrow_date.in_time_zone && item.reservations.last.request_status != "Passed"
-            item.reservations.last.update_attributes( request_status: "Passed")
+      @items.each do |item|
+        item.reservations.each do |res|
+          if Time.zone.now > res.due_date.in_time_zone && res.request_status != "Passed"    
+          item.set_lending_status_available
+            if res.request_status == "Approved"
+              res.set_request_completed
+            else
+              res.set_request_passed
+            end
           end
         end
-      end
+      end # end item iteration
     end
   end
 
@@ -44,8 +50,16 @@ class ItemsController < ApplicationController
     @user = User.find(session[:user_id])
     @reservations = Reservation.where(lender_id: @user.id)
     @reservations.each do |res|
-      if Time.zone.now > res.borrow_date.in_time_zone && res.request_status != "Passed"
-        res.update_attributes( request_status: "Passed")
+      if Time.zone.now > res.due_date.in_time_zone && res.request_status != "Passed"
+      @item = Item.find(res.item_id)     
+      @item.update_attributes( listing_status: "Available")
+        if res.request_status == "Approved"
+          res.update_attributes( request_status: "Completed") 
+          @item.update_attributes( listing_status: "Available")
+        else
+          res.update_attributes( request_status: "Passed")
+          @item.update_attributes( listing_status: "Available")
+        end
       end
     end
     @reservations = @reservations.where( "request_status like ?", "Pending")
@@ -54,8 +68,15 @@ class ItemsController < ApplicationController
 
     @requests = Reservation.where(lent_id: @user.id)
     @requests.each do |res|
-      if Time.zone.now > res.borrow_date.in_time_zone && res.request_status != "Passed"
-        res.update_attributes( request_status: "Passed")
+      if Time.zone.now > res.due_date.in_time_zone && res.request_status != "Passed"  
+      @item = Item.find(res.item_id)   
+        if res.request_status == "Approved"
+          res.update_attributes( request_status: "Completed")       
+          @item.update_attributes( listing_status: "Available")
+        else
+          res.update_attributes( request_status: "Passed")
+          @item.update_attributes( listing_status: "Available")
+        end
       end
     end
 
@@ -100,7 +121,7 @@ class ItemsController < ApplicationController
       Transaction.create(reservation_id: @reservation.id,
                          amount: @reservation.fee,
                          transaction_type: "Fee" )
-      flash.keep[:notice] = "'#{@item.item_name}' was charged. Please prepare your item for pickup."
+      flash.keep[:info] = "#{@customer.first_name} was charged. Please prepare your item for pickup."
       redirect_to rack_path
     else
       redirect_to my_requests_path(@item) and return
@@ -186,6 +207,11 @@ private
 
   def correct_reservations
     @reservations = Reservation.where(lent_id: current_user.id)
+    redirect_to rack_url if @reservations.nil?
+  end
+
+  def correct_lender
+    @reservations = Reservation.where(lender_id: current_user.id)
     redirect_to rack_url if @reservations.nil?
   end
 

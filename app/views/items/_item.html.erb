@@ -7,7 +7,7 @@
   <li id="item-<%= item.id %>">
     <span class="content h3"><%= link_to (item.item_name), item_path(item) %>
 
-      <% if item.reservations.last.present? && item.reservations.last.request_status.present? && item.reservations.last.request_status == "Reserved" %>
+      <% if item.lending_status == "Reserved" %>
       <div class="well h4 pull-right">
         Due in: <%= distance_of_time_in_words(Time.now.in_time_zone, item.reservations.last.due_date) %>
       </div>
@@ -17,7 +17,7 @@
     <span class="timestamp">
       Price: $<%= item.lending_price %> | 
 
-      <% if item.reservations.last.present? && item.reservations.last.request_status.present? && item.reservations.last.request_status == "Reserved" %>
+      <% if item.lending_status == "Reserved" %>
         Due back on: <%= item.reservations.last.due_date.in_time_zone.strftime("%I:%M %p - %m/%d/%Y") if item.reservations.last.present? %>
         | Status: <span class="label label-danger"><%= item.lending_status %></span>
       <% else %>

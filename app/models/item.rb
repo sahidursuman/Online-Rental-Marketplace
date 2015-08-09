@@ -29,19 +29,20 @@ class Item < ActiveRecord::Base
   end
 
   def set_lending_status_reserved
-    self.lending_status = "Reserved"
+    self.update_attributes( lending_status: "Reserved")
   end
 
   def set_lending_status_available
-    self.lending_status = "Available"
+    self.update_attributes( lending_status: "Available")
   end
 
   def set_listing_status_listed
-    self.lending_status = "Listed"
+    self.update_attributes( listing_status: "Listed")
+
   end
 
   def set_listing_status_unlisted
-    self.lending_status = "Unlisted"
+    self.update_attributes( listing_status: "Unlisted")
   end
 
 

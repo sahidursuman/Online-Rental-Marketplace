@@ -16,4 +16,12 @@ class Reservation < ActiveRecord::Base
   	self.update_attributes( request_status: "Approved")
   end
 
+  def set_request_completed
+    self.update_attributes( request_status: "Completed")
+  end
+
+  def set_request_passed
+    self.update_attributes( request_status: "Passed")
+  end
+
 end
