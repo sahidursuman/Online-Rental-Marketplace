@@ -7,7 +7,7 @@ class ItemsController < ApplicationController
   include ItemsHelper
 
   def index
-    @user = User.find(session[:user_id])
+    
     if params[:item_name] || params[:city]
       if params[:item_name].empty?
         item_query = Item.all
@@ -19,6 +19,7 @@ class ItemsController < ApplicationController
       @items = query.all.paginate(page: session[:page])
 
     else
+      @user = User.find(session[:user_id])
       @items = current_user.items.paginate(page: session[:page])
       if @items == nil
         redirect_to my_requests_path
