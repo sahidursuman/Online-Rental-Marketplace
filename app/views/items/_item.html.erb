@@ -3,14 +3,25 @@
 <% if params[:controller] == 'items' && %w(my_reservations index).include?(params[:action]) %>
 
 <% @items.each do |item| %>
+<% res = item.reservations.where(request_status: "Approved").first %>
 
   <li id="item-<%= item.id %>">
     <span class="content h3"><%= link_to (item.item_name), item_path(item) %>
 
       <% if item.lending_status == "Reserved" %>
-      <div class="well h4 pull-right">
-        Due in: <%= distance_of_time_in_words(Time.now.in_time_zone, item.reservations.last.due_date) %>
-      </div>
+        <% if Time.now.in_time_zone < res.borrow_date %>
+          <div class="well h4 pull-right">
+            Pickup in: <%= distance_of_time_in_words(Time.now.in_time_zone, res.borrow_date) %>
+          </div>
+          <br>
+          <div class="well h4 pull-right">
+            Due in: <%= distance_of_time_in_words(Time.now.in_time_zone, res.due_date) %>
+          </div>
+        <% else %>
+          <div class="well h4 pull-right">
+            Due in: <%= distance_of_time_in_words(Time.now.in_time_zone, res.due_date) %>
+          </div>
+        <% end %>   
       <% end %>
 
     </span>
@@ -18,10 +29,10 @@
       Price: $<%= item.lending_price %> | 
 
       <% if item.lending_status == "Reserved" %>
-        Due back on: <%= item.reservations.last.due_date.in_time_zone.strftime("%I:%M %p - %m/%d/%Y") if item.reservations.last.present? %>
+        Due back on: <%= res.due_date.in_time_zone.strftime("%I:%M %p - %m/%d/%Y") %>
         | Status: <span class="label label-danger"><%= item.lending_status %></span>
-      <% else %>
-      Status: <span class="label label-success">Available</span>
+      <% elsif item.lending_status == "Available" %>
+        Status: <span class="label label-success"><%= item.lending_status %></span>
       <% end %>
 
 

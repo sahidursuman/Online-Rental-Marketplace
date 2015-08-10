@@ -9,10 +9,10 @@
     <%= render 'shared/error_messages', object: f.object %>
     <form role="form">
       <% if @user.uid.blank? %>
-        <h1>Set up your payments account</h2>
-
+        <h1>Set up your payments account</h1>
+        <div class="center">
         <%= link_to image_tag('blue-on-light.png'), user_omniauth_authorize_path(:stripe_connect) %>
-
+        </div>
 
       <% else %>
       <h1>Create your listing</h2>

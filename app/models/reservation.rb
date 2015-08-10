@@ -24,4 +24,8 @@ class Reservation < ActiveRecord::Base
     self.update_attributes( request_status: "Passed")
   end
 
+  def set_deposit_refund(scheduler)
+    self.update_attributes( deposit_refund: scheduler)
+  end
+
 end

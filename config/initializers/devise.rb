@@ -238,9 +238,9 @@ Devise.setup do |config|
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
-  #config.omniauth :stripe_connect, ENV['STRIPE_CONNECT_CLIENT_ID'],
-  #                                 ENV['STRIPE_SECRET_KEY'],
-  #                                :scope => 'read_write'
+  config.omniauth :stripe_connect, ENV['STRIPE_CONNECT_CLIENT_ID'],
+                                   ENV['STRIPE_SECRET_KEY'],
+                                  :scope => 'read_write'
 
 
 

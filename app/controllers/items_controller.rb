@@ -22,10 +22,11 @@ class ItemsController < ApplicationController
       @items = current_user.items.paginate(page: session[:page])
       @items.each do |item|
         item.reservations.each do |res|
-          if Time.zone.now > res.due_date.in_time_zone && res.request_status != "Passed"    
+          if Time.zone.now > res.due_date.in_time_zone && res.request_status != "Passed" && res.request_status != "Completed"    
           item.set_lending_status_available
             if res.request_status == "Approved"
               res.set_request_completed
+              schedule_refund_deposit(res)
             else
               res.set_request_passed
             end
@@ -39,6 +40,18 @@ class ItemsController < ApplicationController
     @user = User.find(session[:user_id])
     @reservations = Reservation.where(lent_id: @user.id,
                                       request_status: "Approved")
+    @reservations.each do |res|
+      if Time.zone.now > res.due_date.in_time_zone && res.request_status != "Passed" && res.request_status != "Completed"
+      @item = Item.find(res.item_id)     
+      @item.set_lending_status_available
+        if res.request_status == "Approved"
+          res.set_request_completed
+          schedule_refund_deposit(res)
+        else
+          res.set_request_passed
+        end
+      end
+    end
     @items = @reservations.map(&:item)
     @items = @items.paginate(page: session[:page])
     #@due_in = hours:minutes
@@ -50,15 +63,14 @@ class ItemsController < ApplicationController
     @user = User.find(session[:user_id])
     @reservations = Reservation.where(lender_id: @user.id)
     @reservations.each do |res|
-      if Time.zone.now > res.due_date.in_time_zone && res.request_status != "Passed"
+      if Time.zone.now > res.due_date.in_time_zone && res.request_status != "Passed" && res.request_status != "Completed"
       @item = Item.find(res.item_id)     
-      @item.update_attributes( listing_status: "Available")
+      @item.set_lending_status_available
         if res.request_status == "Approved"
-          res.update_attributes( request_status: "Completed") 
-          @item.update_attributes( listing_status: "Available")
+          res.set_request_completed
+          schedule_refund_deposit(res)
         else
-          res.update_attributes( request_status: "Passed")
-          @item.update_attributes( listing_status: "Available")
+          res.set_request_passed
         end
       end
     end
@@ -68,14 +80,14 @@ class ItemsController < ApplicationController
 
     @requests = Reservation.where(lent_id: @user.id)
     @requests.each do |res|
-      if Time.zone.now > res.due_date.in_time_zone && res.request_status != "Passed"  
-      @item = Item.find(res.item_id)   
+      if Time.zone.now > res.due_date.in_time_zone && res.request_status != "Passed" && res.request_status != "Completed"  
+      @item = Item.find(res.item_id)
+      @item.set_lending_status_available   
         if res.request_status == "Approved"
-          res.update_attributes( request_status: "Completed")       
-          @item.update_attributes( listing_status: "Available")
+          res.set_request_completed
+          schedule_refund_deposit(res)     
         else
-          res.update_attributes( request_status: "Passed")
-          @item.update_attributes( listing_status: "Available")
+          res.set_request_passed
         end
       end
     end
@@ -97,30 +109,29 @@ class ItemsController < ApplicationController
 
     @item = Item.find(@reservation.item_id)
     if @reservation.request_status == "Passed"
-      redirect_to my_requests_path(@item) and return
       flash.keep[:warning] = "Borrow date is passed"
+      redirect_to my_requests_path(@item) and return 
+    end
+
+    if @reservation.transactions.present?
+      flash.keep[:warning] = "Cannot charge twice on the same reservation."
+      redirect_to my_requests_path(@item) and return 
     end
 
     @customer = User.find(@reservation.lent_id)
 
     @lender_id = User.find(@reservation.lender_id)
     @customer_id = @customer.customer_id
-    @token = @customer.token
     @subtotal = (@reservation.subtotal.to_f*100).to_i
     @fee = (@reservation.fee.to_f*100).to_i
 
     #Attempt to charge card
 
-    if charge_card(@lender_id, @customer_id, @token, @subtotal, @fee) && @reservation.borrow_date > Time.zone.now 
+    if charge_card(@reservation, @lender_id, @customer_id, @subtotal, @fee) && @reservation.borrow_date > Time.zone.now 
             
       @reservation.set_request_approved
       @item.set_lending_status_reserved
-      Transaction.create(reservation_id: @reservation.id,
-                         amount: @reservation.subtotal,
-                         transaction_type: "Charge" )
-      Transaction.create(reservation_id: @reservation.id,
-                         amount: @reservation.fee,
-                         transaction_type: "Fee" )
+
       flash.keep[:info] = "#{@customer.first_name} was charged. Please prepare your item for pickup."
       redirect_to rack_path
     else
@@ -184,16 +195,39 @@ class ItemsController < ApplicationController
 
 private
 
-  def charge_card(lender, customer, token, subtotal, fee) 
+  def charge_card(reservation, lender, customer, subtotal, fee) 
     # Charge the card
     Stripe.api_key = ENV['STRIPE_SECRET_KEY']
-    Stripe::Charge.create({
+    charge = Stripe::Charge.create({
       :amount => subtotal,
       :currency => "usd",
-      :source => token,
+      :customer => customer,
       :destination => "acct_16T12ZBPUpjt04Z3",
       :application_fee => fee
       })
+    Transaction.create(reservation_id: reservation.id,
+                       amount: reservation.subtotal,
+                       transaction_type: "Charge",
+                       charge_id: charge.id  )
+  end
+
+  def refund_deposit(reservation)
+    deposit = (reservation.deposit.to_f * 100).to_i
+
+    Stripe.api_key = ENV['STRIPE_SECRET_KEY']
+    ch = Stripe::Charge.retrieve(reservation.transactions.first.charge_id)
+    ch.refunds.create(:amount => deposit,
+                      :reverse_transfer => true)
+  end
+
+  def schedule_refund_deposit(reservation)
+    unless reservation.deposit_refund == nil
+      scheduler = Rufus::Scheduler.new
+      scheduler.in '5s' do
+        refund_deposit(reservation)
+      end
+      reservation.set_deposit_refund(scheduler)
+    end
   end
 
   def item_params

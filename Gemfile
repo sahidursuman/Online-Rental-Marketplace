@@ -1,12 +1,13 @@
 source 'https://rubygems.org'
 
+gem 'rufus-scheduler'
 gem "table_print"
 gem 'browser-timezone-rails', '0.0.8'
 gem 'pusher'
 gem 'figaro'
 gem 'sinatra'
 gem 'devise'
-gem 'omniauth-stripe-connect', '2.6.0'
+gem 'omniauth-stripe-connect', '2.6.0' #was 2.6.0
 gem "bootstrap-switch-rails"
 gem 'stripe'
 source 'https://rails-assets.org' do

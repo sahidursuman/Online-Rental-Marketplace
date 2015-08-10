@@ -96,10 +96,10 @@ require 'date'
 									borrow_date: params[:borrow_date],
 									due_date: params[:due_date],
 									subtotal: params[:subtotal],
-									fee: params[:fee]
+									fee: params[:fee],
+									deposit: params[:deposit]
 									)
 
-		@lending_user.update_attributes( token: params[:stripeToken])
 
 		if @lending_user.customer_id.present?
 			customer = @lending_user.customer_id

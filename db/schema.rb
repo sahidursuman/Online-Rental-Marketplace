@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150808032853) do
+ActiveRecord::Schema.define(version: 20150809195205) do
 
   create_table "calendars", force: :cascade do |t|
     t.integer  "item_id"
@@ -116,6 +116,7 @@ ActiveRecord::Schema.define(version: 20150808032853) do
     t.decimal  "subtotal"
     t.decimal  "fee"
     t.decimal  "deposit"
+    t.string   "deposit_refund"
   end
 
   add_index "reservations", ["item_id", "lender_id", "lent_id"], name: "index_reservations_on_item_id_and_lender_id_and_lent_id"
@@ -129,6 +130,7 @@ ActiveRecord::Schema.define(version: 20150808032853) do
     t.string   "transaction_type"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.string   "charge_id"
   end
 
   add_index "transactions", ["reservation_id"], name: "index_transactions_on_reservation_id"
@@ -153,7 +155,6 @@ ActiveRecord::Schema.define(version: 20150808032853) do
     t.string   "uid"
     t.string   "access_code"
     t.string   "provider"
-    t.string   "token"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

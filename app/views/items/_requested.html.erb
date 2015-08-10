@@ -11,10 +11,14 @@
       <div class="col-md-3 pull-right">
       <button type="button" class="btn btn-warning btn-block btn-lg glyphicon">Passed</button>
       </div>
-    <% else %>
+    <% elsif res.request_status == "Completed" %>
 	    <div class="col-md-3 pull-right">
-	    <button type="button" class="btn btn-default btn-block btn-lg glyphicon">Pending</button>
+	    <button type="button" class="btn btn-primary btn-block btn-lg glyphicon">Completed</button>
 	    </div>
+    <% else %>
+      <div class="col-md-3 pull-right">
+      <button type="button" class="btn btn-default btn-block btn-lg glyphicon">Pending</button>
+      </div>
     <% end %>
     <div id="approve-button btn-group">
     <% if res.request_status == "Approved" %>
