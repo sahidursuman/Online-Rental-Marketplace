@@ -1,5 +1,5 @@
 class ItemsController < ApplicationController
-  before_action :logged_in_user, only: [:index, :my_reservations, :requests, :new, :create, :destroy, :update]
+  before_action :logged_in_user, only: [:my_reservations, :requests, :new, :create, :destroy, :update]
   before_action :correct_user,   only: [:destroy, :edit, :create, :update]
   before_action :correct_reservations, only: :my_reservations
   before_action :correct_lender, only: :approve
@@ -20,6 +20,9 @@ class ItemsController < ApplicationController
 
     else
       @items = current_user.items.paginate(page: session[:page])
+      if @items == nil
+        redirect_to my_requests_path
+      end
       @items.each do |item|
         item.reservations.each do |res|
           if Time.zone.now > res.due_date.in_time_zone && res.request_status != "Passed" && res.request_status != "Completed"    
