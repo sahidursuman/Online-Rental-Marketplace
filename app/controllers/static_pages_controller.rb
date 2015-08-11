@@ -5,8 +5,9 @@ class StaticPagesController < ApplicationController
   	Rails.logger.info "TIME NOW #{Time.now}"
   	scheduler = Rufus::Scheduler.new
   	Rails.logger.info "TIME NOW #{scheduler}"
+
   	scheduler.in '5s' do
-      ping
+      Rails.logger.info "TIME NOW #{Time.now}"
     end
 
   end
@@ -20,7 +21,5 @@ class StaticPagesController < ApplicationController
 
   private
 
-  def ping
-  	Rails.logger.info "TIME AFTER SCHEDULER DONE #{Time.now}"
-  end
+ 
 end

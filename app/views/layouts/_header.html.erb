@@ -1,31 +1,11 @@
 <header>
-  <div class="navbar navbar-nav navbar-fixed-top navbar-inverse header navbar-custom">
+  <div class="navbar navbar-nav navbar-fixed-top navbar-inverse header">
   <div class="container">
       
       <% if current_page?(root_url) %>      
         <%= link_to image_tag("logosmall.png"), root_path, id: "logo" %>
 
-        <div class="search">
-        <div class="col-lg-6 ">
-        <div class="input-group ">
 
-        <%= form_tag rack_path, method: :get do %>
-        <div class="col-md-4">
-        <li>  <%= text_field_tag :item_name, params[:search], placeholder: "Searching for...", class: "form-control" %> </li>
-
-        </div>
-        <div class="col-md-4">
-        <li> <%= text_field_tag :city, params[:search], placeholder: "At location... ", class: "form-control" %> </li>
-        </div>
-        <div class="col-md-3">
-        <li>  <%= submit_tag "Search", class: "btn form-control" %></li>
-        </div>  
-
-        <% end %>
-        
-      </div>
-      </div>
-      </div>
 
 
 
@@ -78,12 +58,17 @@
   <%= render 'layouts/secondnavbar' %>
   <% end %>
 <% end %>
-
+<% if params[:controller] == 'static_pages' && %w(home ).include?(params[:action]) %>
+ 
+<% end %>
 
 
 
   
 </header>
+
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
+
 
 
 

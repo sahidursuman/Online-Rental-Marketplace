@@ -225,9 +225,10 @@ private
   end
 
   def schedule_refund_deposit(reservation)
-    unless reservation.deposit_refund == nil
+    unless reservation.deposit_refund.present?
       scheduler = Rufus::Scheduler.new
-      scheduler.in '5s' do
+      time = reservation.due_date + 24.hours
+      scheduler.at '#{time}' do
         refund_deposit(reservation)
       end
       reservation.set_deposit_refund(scheduler)

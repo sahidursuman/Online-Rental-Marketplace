@@ -35,6 +35,9 @@
         Status: <span class="label label-success"><%= item.lending_status %></span>
       <% end %>
 
+      <% if current_user.id == item.user_id %>
+      | <%= link_to "Edit Listing", edit_item_path(item) %>
+      <% end %>
 
 
     </span>
