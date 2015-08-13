@@ -6,7 +6,7 @@
     <%= form_for(@item) do |f| %>
 
     <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-    <%= render 'shared/error_messages', object: f.object %>
+
     <form role="form">
       <% if @user.uid.blank? %>
         <h1>Set up your payments account</h1>
@@ -39,7 +39,7 @@
           </div>
         </div>
       </div>
-
+      
       <div class="form-group">
         <%= f.text_area :description, class: 'form-control input-lg', placeholder: 'Describe your arm' %>
       </div>
@@ -48,12 +48,14 @@
       <div class="col-xs-4 col-sm-4 col-md-4 col-md-offset-4">
         <div class="form-group">
           <h2><%= f.label :category, class: 'form-control' %></h2>
-          <%= f.select :category, options_for_select(%w[Rifle Shotgun]), class: 'form-control' %> 
+          <%= f.select :category, options_for_select(%w[Rifle]), class: 'form-control' %> 
         </div>
       </div>
       </div>
-
+      <br>
       <hr class="colorgraph">
+      <br>
+      <br>
       <div class="row">
         <div class="col-xs-6 col-md-6 col-md-offset-3"><%= f.submit "Begin", class: "btn btn-primary btn-block btn-lg" %></div>
       </div>

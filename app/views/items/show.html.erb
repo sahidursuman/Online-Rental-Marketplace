@@ -34,7 +34,7 @@
     </div>
   </div>
   <div class="col-md-4">
-
+  <% if logged_in? %>
     <%= hidden_field_tag "lending_id", @lending_user.id %>
     <%= hidden_field_tag "lender_id", @lender_user.id %>
     <%= hidden_field_tag "item_id", @item.id %>
@@ -43,6 +43,8 @@
       <div class="center">
       <h4><small>(Your item)</small></h4>
       </div>
+  
+  <% end %>
     <% else %>
     <%= submit_tag "Request Reservation", class: "btn btn-primary btn-block btn-lg form-control" %>
     <% end %>

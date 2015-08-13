@@ -1,6 +1,8 @@
-				<br>
+				
+        <br>
+        <br>
 
-        <div class="search container">
+        <div class="search">
         <div class="col-lg-6 col-md-offset-3">
         <div class="input-group ">
 
@@ -13,8 +15,8 @@
         <div class="col-md-4">
         <%= text_field_tag :city, params[:search], placeholder: "At location... ", class: "form-control address" %>
         </div>
-        <div class="col-md-3">
-         <%= submit_tag "Search", class: "btn form-control" %>
+        <div class="col-md-4">
+         <%= submit_tag "Search", class: "btn btn-primary form-control" %>
         </div>  
 
         <% end %>
@@ -23,26 +25,119 @@
       </div>
       </div>
 
-
+<br>
+<br>
+<br>
+<br>
 <hr>
+<br>
+<br>
+<br>
 
-<div class="center jumbotron">
+
+
+<div class=" jumbotron">
 
 
 
-  <h1>Welcome to the Sample App</h1>
+  <h1>Get your hunting equipment</h1>
 
   <h2>
-    This is the home page for the
-    <a href="http://www.railstutorial.org/">Ruby on Rails Tutorial</a>
-    sample application.
+    Without having to own it.
   </h2>
 
-  <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
+<br>
+<br>
+<br>
+<br>
+<br>
 
-  <%= cookies["browser.timezone"] %>
   <% puts cookies["browser.timezone"] %>
+
+
+
+   <!-- Projects Row -->
+        <div class="row">
+            <div class="col-md-6 portfolio-item">
+                <a href="#">
+                    <%= image_tag("deer.jpeg", class: "img-responsive") %>
+                </a>
+            </div>
+            <div class="col-md-6 portfolio-item">
+                <h3>
+                    <a href="#">Rent your arms</a>
+                </h3>
+                <h4>Armrack allows you to safely rent your firearms for your next hunting trip.
+                Skip paying expensive shipping fees, and rent.</h4>
+            </div>
+        </div>
+        <!-- /.row -->
+        <br>
+        <br>
+        <br>
+
+        <!-- Projects Row -->
+        <div class="row">
+            <div class="col-md-6 portfolio-item">
+                <a href="#">
+                    <%= image_tag("armoury.jpeg", class: "img-responsive") %>
+                </a>
+            </div>
+            <div class="col-md-6 portfolio-item">
+                <h3>
+                    <a href="#">Rack your arms</a>
+                </h3>
+                <h4>Have an arm you're willing to lend ? List your rifle on Armrack and reap
+                the benefits of our community.</h4>
+            </div>
+        </div>
+        <!-- /.row -->
+        <br>
+        <br>
+        <br>
+
+        <div class="row">
+            <div class="col-md-6 portfolio-item">
+                <a href="#">
+                    <%= image_tag("breda.jpg", class: "img-responsive") %>
+                </a>
+            </div>
+            <div class="col-md-6 portfolio-item">
+                <h3>
+                    <a href="#">Join the movement</a>
+                </h3>
+                <h4>Armrack is building a trusted community of responsible arms lovers. Help us achieve
+                our dream.</h4>
+            </div>
+        </div>
+
+        <br>
+        <br>
+        <br>
+        <hr>
+        <br>
+        <br>
+        <br>
+
+          <%= link_to "Sign up now!", signup_path, class: "btn btn-lg col-md-6 col-md-offset-3 btn-primary " %>
+
+
+
+
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <script>
   $(document).ready( function () {

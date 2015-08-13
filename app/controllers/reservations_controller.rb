@@ -1,4 +1,6 @@
 class ReservationsController < ApplicationController
+	before_action :logged_in_user, only: [:show, :create]
+  before_action :correct_user,   only: [:show, :create]
 require 'date' 
 
 	def show
@@ -124,6 +126,10 @@ require 'date'
 	    params.permit :stripeEmail, :stripeToken, :borrow_date, :due_date, :item_id
 	  end
 
+	  def correct_user
+    	@item = current_user.items.find_by(id: params[:id])
+    	redirect_to rack_url if @item.nil?
+  	end
 
 
 end

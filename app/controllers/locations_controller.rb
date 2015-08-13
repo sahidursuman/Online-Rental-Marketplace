@@ -48,7 +48,7 @@ private
 
   def location_params
     params.require(:location).permit(:street, :apartment, 
-                        :city, :state, :country, :zip, :item_id)
+                        :city, :state, :country, :zip, :item_id, :latitude, :longitude)
   end
 
 end

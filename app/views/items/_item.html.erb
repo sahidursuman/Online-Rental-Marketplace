@@ -33,6 +33,9 @@
         | Status: <span class="label label-danger"><%= item.lending_status %></span>
       <% elsif item.lending_status == "Available" %>
         Status: <span class="label label-success"><%= item.lending_status %></span>
+      <% elsif item.listing_status == "Unlisted" %>
+        Status: <span class="label label-warning">Unlisted</span>
+
       <% end %>
 
       <% if current_user.id == item.user_id %>

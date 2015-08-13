@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'searchkick'
 gem 'geocomplete_rails'
 gem 'rufus-scheduler'
 gem "table_print"

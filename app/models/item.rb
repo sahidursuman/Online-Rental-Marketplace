@@ -1,4 +1,5 @@
 class Item < ActiveRecord::Base
+  searchkick word_start: [:item_name]
   belongs_to :user
   attr_accessor :available_from, :available_to
   has_many :reservations

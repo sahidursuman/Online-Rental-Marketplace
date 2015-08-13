@@ -1,6 +1,6 @@
 class ItemsController < ApplicationController
-  before_action :logged_in_user, only: [:my_reservations, :requests, :new, :create, :destroy, :update]
-  before_action :correct_user,   only: [:destroy, :edit, :create, :update]
+  before_action :logged_in_user, only: [:my_reservations, :requests, :edit, :new, :create, :destroy, :update]
+  before_action :correct_user,   only: [:destroy, :update]
   before_action :correct_reservations, only: :my_reservations
   before_action :correct_lender, only: :approve
 
@@ -8,17 +8,17 @@ class ItemsController < ApplicationController
 
   def index
     
-    if params[:item_name] || params[:city]
-      if params[:item_name].empty?
-        item_query = Item.all
-        else
-        item_query = Item.where('item_name like ?', params[:item_name])
-      end
-      query = item_query.joins(:location).where('locations.city like ?', params[:city])
-                                    
-      @items = query.all.paginate(page: session[:page])
+    if params[:commit] == "Search"
+      puts "SEARCH"
+      @items = Item.search params[:item_name], fields: [{item_name: :word_start}]
+      #@locations = Location.search params[:city], fields: [{city: :word_start, state: :word_start}]                              
+
+      #@items = @locations.map(&:query).flatten.uniq
+
+
 
     else
+      puts "LISTINGS"
       @user = User.find(session[:user_id])
       @items = current_user.items.paginate(page: session[:page])
       if @items == nil
@@ -146,8 +146,10 @@ class ItemsController < ApplicationController
 
   def show
     @item = Item.find(params[:id])
-    @lending_user = User.find(session[:user_id])
-    @lender_user = User.find_by_id(@item.user_id)
+    if logged_in?
+      @lending_user = User.find(session[:user_id])
+      @lender_user = User.find_by_id(@item.user_id)
+    end
   end
 
   def new
@@ -158,6 +160,7 @@ class ItemsController < ApplicationController
   end
   
   def create
+    @user = User.find(session[:user_id])
     @item = current_user.items.build(item_params)
     if @item.save
       flash[:success] = "3 more steps."
@@ -167,7 +170,7 @@ class ItemsController < ApplicationController
       lending_status: "Unavailable"
       })
     else
-      render root_url
+      render 'new'
     end
 	end
 
