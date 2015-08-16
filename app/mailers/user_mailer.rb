@@ -19,4 +19,7 @@ class UserMailer < ApplicationMailer
     @user = user
     mail to: user.email, subject: "Armrack: Password reset"
   end
+
+  # request_sent request_approved reminder reservation_finished deposit_refunded deposit_halted
+
 end

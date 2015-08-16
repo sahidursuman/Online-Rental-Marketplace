@@ -87,7 +87,7 @@ p {
 
 .navbar-center {
   position: relative;
-        left: 46.5%;
+        left: 46%;
         display: block;
         width: 100%;
         text-align: center;
@@ -115,6 +115,15 @@ p {
  line-height: 38px;
 }
 
+.second-navbar {
+  height: 18px;
+}
+
+.second-navbar li a {
+    padding-top:4px !important; 
+    padding-bottom:0 !important;
+    line-height: 46px;
+}
 
 
 

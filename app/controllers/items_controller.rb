@@ -9,11 +9,14 @@ class ItemsController < ApplicationController
   def index
     
     if params[:commit] == "Search"
-      puts "SEARCH"
-      @items = Item.search params[:item_name], fields: [{item_name: :word_start}]
-      #@locations = Location.search params[:city], fields: [{city: :word_start, state: :word_start}]                              
+      @q = Item.search params[:item_name], fields: [{item_name: :word_start}]
+      @items = @q.results
+      @ql = Location.search params[:city], fields: [{city: :word_start, state: :word_start}]                              
+      @locations = @ql.results
 
-      #@items = @locations.map(&:query).flatten.uniq
+      @items = Location.where(item_id: @locations)
+      
+
 
 
 
