@@ -46,8 +46,11 @@ class UsersController < ApplicationController
     @user = User.find(session[:user_id])
   end
 
-  def rack
+  def image_upload
     @user = User.find(session[:user_id])
+    image = params[:image]
+    @user.update_attributes(picture: image)
+
   end
 
 
@@ -56,7 +59,7 @@ class UsersController < ApplicationController
 
   	def user_params
   		params.require(:user).permit(:first_name, :last_name, :email,
-  							:password, :password_confirmation, :organization)
+  							:password, :password_confirmation, :organization, :image)
   	end
 
     # Before filters

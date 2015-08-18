@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery.cookie
+//= require jquery.remotipart
 //= require geocomplete
 //= require jstz
 //= require browser_timezone_rails/set_time_zone

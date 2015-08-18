@@ -5,9 +5,15 @@
 
     		<div class="thumbnail">
         	<%= link_to image_tag("defaultuser.png") %>
-          <span class="btn btn-default">
-            Upload Picture
-          </span>
+          
+          <%= form_for image_upload_path, :html => { :multipart => true }, :remote => true do |f|%>
+
+          <%= f.label :image, 'Choose Image' %>
+          <%= f.file_field 'image' %>
+          <%= f.submit 'Add' %>
+
+        <% end %>
+
           <div class="caption">
             <h1>
         	   <%= @user.first_name + " " + @user.last_name[0] + "." %>

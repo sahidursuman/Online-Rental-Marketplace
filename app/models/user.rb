@@ -1,6 +1,5 @@
 class User < ActiveRecord::Base
   devise :omniauthable
-
   has_many :items, dependent: :destroy
   attr_accessor :remember_token, :activation_token, :reset_token
 	before_save :downcase_email
@@ -14,6 +13,14 @@ class User < ActiveRecord::Base
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
   validates :organization, length: { maximum: 50 }
+  mount_uploader :picture, ImageUploader
+
+   def self.parse_filename(filename)
+    filename.gsub!(/(.jpg|.png)/, '')
+    return nil unless filename =~ /^\w*-(([a-zA-Z])*(_|$))*/
+    filename.split('_').join(' ')
+    {title: filename}
+  end
     
   # Returns the hash digest of the given string.
   def User.digest(string)

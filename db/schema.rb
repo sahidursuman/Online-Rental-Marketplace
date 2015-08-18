@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150809195205) do
+ActiveRecord::Schema.define(version: 20150817025445) do
 
   create_table "calendars", force: :cascade do |t|
     t.integer  "item_id"
@@ -155,6 +155,7 @@ ActiveRecord::Schema.define(version: 20150809195205) do
     t.string   "uid"
     t.string   "access_code"
     t.string   "provider"
+    t.string   "picture"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

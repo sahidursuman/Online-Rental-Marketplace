@@ -34,6 +34,8 @@ Rails.application.routes.draw do
   get 'rackit'    => 'items#new'
   post 'rackit'    => 'items#create'
 
+  post 'dashboard' => 'users#image_upload', as: :image_upload
+
 
 
   get 'items/:id/photos' => 'photos#show', as: :edit_photos

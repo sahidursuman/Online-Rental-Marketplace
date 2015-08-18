@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'remotipart', '~> 1.2'
 gem 'searchkick'
 gem 'geocomplete_rails'
 gem 'rufus-scheduler'

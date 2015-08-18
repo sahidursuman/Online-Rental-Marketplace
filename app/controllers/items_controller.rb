@@ -14,7 +14,7 @@ class ItemsController < ApplicationController
       @ql = Location.search params[:city], fields: [{city: :word_start, state: :word_start}]                              
       @locations = @ql.results
 
-      @items = Location.where(item_id: @locations)
+      @items = @locations.map(&:item)
       
 
 
