@@ -4,14 +4,19 @@
     <section class="user_info">
 
     		<div class="thumbnail">
-        	<%= link_to image_tag("defaultuser.png") %>
+          <% if @user.picture.present? %>
+            <%= image_tag @user.picture.url(:thumb) if @user.picture? %>
+          <% else %>
+        	  <%= link_to image_tag("defaultuser.png") %>
+          <% end %>
           
-          <%= form_for image_upload_path, :html => { :multipart => true }, :remote => true do |f|%>
+          <% unless @user.picture %>
+            <%= form_tag image_upload_path, :html => { :multipart => true }, :remote => true do |f|%>
 
-          <%= f.label :image, 'Choose Image' %>
-          <%= f.file_field 'image' %>
-          <%= f.submit 'Add' %>
-
+            <%= label_tag :image, 'Choose Image' %>
+            <%= file_field_tag 'image' %>
+            <%= submit_tag 'Add' %>
+          <% end %>
         <% end %>
 
           <div class="caption">
